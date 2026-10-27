@@ -8,14 +8,8 @@
   },
   "plugins": [
     {
-      "name": "example-plugin",
-      "source": "./plugins/example-plugin",
-      "description": "Template plugin demonstrating the harness-agnostic layout",
-      "version": "0.1.0"
-    },
-    {
-      "name": "my-new-plugin",
-      "source": "./plugins/my-new-plugin",
+      "name": "test-plugin",
+      "source": "./plugins/test-plugin",
       "description": "TODO: describe what this plugin does.",
       "version": "0.1.0"
     }

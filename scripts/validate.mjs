@@ -16,6 +16,17 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PLUGINS_DIR = join(ROOT, "plugins");
 const REQUIRED_FIELDS = ["$schema", "name", "version", "description", "author"];
 
+// Skill frontmatter schema per agentskills.io specification
+const SKILL_FIELDS = {
+  name: { required: true, type: "string", maxLength: 64, pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/ },
+  description: { required: true, type: "string", minLength: 1, maxLength: 1024 },
+  license: { required: false, type: "string" },
+  compatibility: { required: false, type: "string", maxLength: 500 },
+  metadata: { required: false, type: "object", keyType: "string", valueType: "string" },
+  "allowed-tools": { required: false, type: "string" },
+};
+const SKILL_FIELD_NAMES = new Set(Object.keys(SKILL_FIELDS));
+
 // Official Agent Plugins 1.0.0 schemas using draft-2020-12
 // The negative lookahead pattern for plugin names requires proper escaping in JS strings
 const PLUGIN_SCHEMA = {
@@ -53,6 +64,8 @@ const PLUGIN_SCHEMA = {
       "type": "array",
       "items": { "type": "string" }
     },
+    "example": { "type": "boolean" },
+    "private": { "type": "boolean" },
     "extensions": {
       "type": "object",
       "description": "Client-specific manifest data keyed by reverse-domain extension namespace.",
@@ -163,6 +176,127 @@ function warn(msg) {
 function hasFrontmatter(path) {
   const text = readFileSync(path, "utf8");
   return text.startsWith("---\n") && text.indexOf("\n---", 4) !== -1;
+}
+
+function parseFrontmatter(path) {
+  const text = readFileSync(path, "utf8");
+  const endIdx = text.indexOf("\n---", 4);
+  if (endIdx === -1) return null;
+  const yaml = text.slice(4, endIdx);
+  try {
+    // Simple YAML parser for our subset - supports key: value, nested objects
+    // This is a minimal implementation for the skill frontmatter fields
+    const result = {};
+    const lines = yaml.split("\n");
+    let currentObj = result;
+    let currentParentKey = null;
+    let indentStack = [{ indent: -1, obj: result }];
+    
+    for (const line of lines) {
+      if (!line.trim() || line.trim().startsWith("#")) continue;
+      
+      // Calculate indent level (number of leading spaces)
+      const indentMatch = line.match(/^(\s*)/);
+      const indent = indentMatch ? indentMatch[1].length : 0;
+      
+      // Find the right parent object based on indent
+      while (indentStack.length > 1 && indentStack[indentStack.length - 1].indent >= indent) {
+        indentStack.pop();
+      }
+      currentObj = indentStack[indentStack.length - 1].obj;
+      
+      const trimmed = line.trim();
+      const [k, ...v] = trimmed.split(":");
+      const key = k.trim();
+      const val = v.join(":").trim().replace(/^"|^'|"$|'$/g, "");
+      
+      if (val === "" && (key === "metadata" || key === "license" || key === "compatibility" || key === "allowed-tools")) {
+        // This could be an object (metadata) or empty value
+        if (key === "metadata") {
+          currentObj[key] = {};
+          indentStack.push({ indent, obj: currentObj[key] });
+        }
+      } else {
+        currentObj[key] = val;
+      }
+    }
+    return result;
+  } catch (e) {
+    return null;
+  }
+}
+
+function validateSkillFrontmatter(frontmatter, skillDirName, skillPath) {
+  let valid = true;
+  
+  // Check for unknown fields
+  for (const key of Object.keys(frontmatter)) {
+    if (!SKILL_FIELD_NAMES.has(key)) {
+      fail(`${skillPath}: unknown frontmatter field "${key}" (allowed: ${Array.from(SKILL_FIELD_NAMES).join(", ")})`);
+      valid = false;
+    }
+  }
+  
+  // Validate each known field
+  for (const [field, spec] of Object.entries(SKILL_FIELDS)) {
+    const value = frontmatter[field];
+    
+    if (spec.required && (value === undefined || value === null || value === "")) {
+      fail(`${skillPath}: missing required field "${field}"`);
+      valid = false;
+      continue;
+    }
+    
+    if (value === undefined || value === null) continue;
+    
+    if (spec.type === "string" && typeof value !== "string") {
+      fail(`${skillPath}: field "${field}" must be a string`);
+      valid = false;
+      continue;
+    }
+    
+    if (spec.type === "object" && (typeof value !== "object" || Array.isArray(value))) {
+      fail(`${skillPath}: field "${field}" must be an object`);
+      valid = false;
+      continue;
+    }
+    
+    if (spec.type === "string") {
+      if (spec.minLength && value.length < spec.minLength) {
+        fail(`${skillPath}: field "${field}" must be at least ${spec.minLength} characters (got ${value.length})`);
+        valid = false;
+      }
+      if (spec.maxLength && value.length > spec.maxLength) {
+        fail(`${skillPath}: field "${field}" must be at most ${spec.maxLength} characters (got ${value.length})`);
+        valid = false;
+      }
+      if (spec.pattern && !spec.pattern.test(value)) {
+        fail(`${skillPath}: field "${field}" must match pattern ${spec.pattern} (got "${value}")`);
+        valid = false;
+      }
+    }
+    
+    if (spec.type === "object") {
+      for (const [k, v] of Object.entries(value)) {
+        if (typeof k !== "string") {
+          fail(`${skillPath}: field "${field}" keys must be strings`);
+          valid = false;
+        }
+        if (spec.valueType === "string" && typeof v !== "string") {
+          fail(`${skillPath}: field "${field}" values must be strings`);
+          valid = false;
+        }
+      }
+    }
+  }
+  
+  // Check name matches directory name
+  if (frontmatter.name && frontmatter.name !== skillDirName) {
+    fail(`${skillPath}: skill name "${frontmatter.name}" must match directory name "${skillDirName}"`);
+    valid = false;
+  }
+  
+  return valid;
 }
 
 function walkMarkdown(dir) {
@@ -276,6 +410,18 @@ if (!existsSync(PLUGINS_DIR)) {
       for (const file of walkMarkdown(join(pluginDir, sub))) {
         if (!hasFrontmatter(file)) {
           fail(`${file.replace(ROOT + "/", "")}: missing YAML frontmatter`);
+        }
+        // Additional skill validation per agentskills.io spec
+        if (sub === "skills") {
+          const relPath = file.replace(ROOT + "/", "");
+          const frontmatter = parseFrontmatter(file);
+          if (!frontmatter) {
+            fail(`${relPath}: failed to parse YAML frontmatter`);
+          } else {
+            // Get skill directory name (parent of SKILL.md)
+            const skillDirName = file.split("/").slice(-2, -1)[0];
+            validateSkillFrontmatter(frontmatter, skillDirName, relPath);
+          }
         }
       }
     }
