@@ -70,6 +70,13 @@ function main() {
     }
 
     const manifest = readJson(manifestPath);
+    
+    // Skip example/educational plugins - they are not meant for distribution
+    if (manifest.example === true || manifest.private === true) {
+      console.log(`skip ${name}: example/private plugin (not synced to marketplace)`);
+      continue;
+    }
+    
     if (manifest.name !== name) {
       console.warn(
         `warning: plugins/${name}/plugin.json declares name "${manifest.name}" — directory name should match`

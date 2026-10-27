@@ -6,6 +6,7 @@
   "author": {
     "name": "Your Name"
   },
+  "example": true,
   "keywords": [],
   "extensions": {
     "com.anthropic.claude": {
