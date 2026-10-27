@@ -1,0 +1,26 @@
+services:
+  validate:
+    build: .
+    # Run validation (uses files baked into image)
+    command: node scripts/validate.mjs
+
+  sync:
+    build: .
+    volumes:
+      - .:/workspace
+    # Regenerate manifests
+    command: node scripts/sync-manifests.mjs
+
+  sync-check:
+    build: .
+    # Check if manifests are in sync (uses files baked into image)
+    command: node scripts/sync-manifests.mjs --check
+
+  new-plugin:
+    build: .
+    volumes:
+      - .:/workspace
+    # Scaffold a new plugin (usage: docker compose run --rm new-plugin my-plugin-name)
+    command: node scripts/new-plugin.mjs
+    stdin_open: true
+    tty: true

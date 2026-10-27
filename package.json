@@ -1,0 +1,15 @@
+{
+  "name": "agents-plugin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-manifests.mjs",
+    "sync:check": "node scripts/sync-manifests.mjs --check",
+    "new-plugin": "node scripts/new-plugin.mjs",
+    "validate": "node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

@@ -1,0 +1,18 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check generated manifests are up to date
+        run: node scripts/sync-manifests.mjs --check
+      - name: Validate plugin manifests and content
+        run: node scripts/validate.mjs

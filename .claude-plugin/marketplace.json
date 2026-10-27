@@ -1,0 +1,23 @@
+{
+  "name": "agents-plugin-marketplace",
+  "owner": {
+    "name": "Your Name"
+  },
+  "metadata": {
+    "description": "Harness-agnostic agent plugins for Claude Code and GitHub Copilot CLI."
+  },
+  "plugins": [
+    {
+      "name": "example-plugin",
+      "source": "./plugins/example-plugin",
+      "description": "Template plugin demonstrating the harness-agnostic layout",
+      "version": "0.1.0"
+    },
+    {
+      "name": "my-new-plugin",
+      "source": "./plugins/my-new-plugin",
+      "description": "TODO: describe what this plugin does.",
+      "version": "0.1.0"
+    }
+  ]
+}
