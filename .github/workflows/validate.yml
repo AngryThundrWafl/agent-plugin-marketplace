@@ -11,7 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
       - name: Check generated manifests are up to date
         run: node scripts/sync-manifests.mjs --check
       - name: Validate plugin manifests and content
