@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "prompt-engineering",
+  "version": "1.0.0",
+  "description": "Portable Agent Plugin providing a live-distilled Prompting Reference Pack for Claude and open-weight models plus two skills (skill-creator and prompt-creator) for authoring compliant Agent Skills and tested, versioned prompts.",
+  "author": {
+    "name": "Agent Plugin Marketplace Maintainers"
+  },
+  "license": "MIT",
+  "keywords": [
+    "prompt-engineering",
+    "agent-plugins",
+    "agent-skills",
+    "claude",
+    "open-weight",
+    "evals"
+  ]
+}
