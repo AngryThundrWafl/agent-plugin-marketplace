@@ -15,7 +15,7 @@ Run every check below against the target skill directory (and any referenced plu
 - [ ] **Allowed keys only:** Frontmatter contains only keys from the closed 6-field set: `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`.
 - [ ] **`name` format & match:** Required non-empty string, `1–64` characters, lowercase alphanumeric and single hyphens only (`[a-z0-9-]` / Unicode lowercase alphanumeric + `-`), no leading or trailing `-`, no consecutive `--`, no dots `.`, and exact match to the parent directory name.
 - [ ] **`description` format:** Required non-empty string, `1–1024` characters, single line `[General]`, contains no `: ` (colon-space), no `<` or `>`, and no internal relative file paths `[General]`.
-- [ ] **`description` content:** Clearly describes both **what** the skill does and **when** to use it, including specific trigger keywords.
+- [ ] **`description` content:** Written in third person and clearly describes both **what** the skill does and **when** to use it, including specific trigger keywords users would say `[Claude docs]`.
 - [ ] **`compatibility` (if present):** String of `1–500` characters stating genuine environment requirements.
 - [ ] **`metadata` (if present):** Mapping of string keys to **string** values (quote versions, e.g., `"1.1.0"`).
 - [ ] **`license` & `allowed-tools` (if present):** Strings (`allowed-tools` space-separated).
@@ -25,13 +25,15 @@ Run every check below against the target skill directory (and any referenced plu
 - [ ] **Line budget:** `SKILL.md` is strictly under `500` lines (`agentskills.io`), and router `SKILL.md` files paired with `references/` guides stay under `120` lines `[General]`.
 - [ ] **Task-scoped on-demand loading:** `SKILL.md` directs the agent to load each companion guide, checklist, and shared reference file only when the active task needs it—avoiding mandatory upfront loading of unused guides `[General]`.
 - [ ] **Single-topic leaf docs & no duplicated model knowledge:** Neither `SKILL.md` nor runtime guides duplicate model-card tables, sampling values, API error matrices, or other guides' checklists; large multi-family reference files are split by model/topic so unused families consume zero context `[General]`.
+- [ ] **TOC for long files:** Every reference or guide file longer than 100 lines opens with a table of contents `[Claude docs]`.
 
 ## 4. Prompting Hygiene & Provenance
 
 - [ ] **Clear & direct:** Instructions use explicit, numbered steps where order matters, pass the "colleague test", and avoid redundant boilerplate `[Claude docs]`.
 - [ ] **Positive framing & motivation:** Rules emphasize what to do and explain **why** constraints matter so edge cases generalize cleanly `[Claude docs]`.
 - [ ] **Neutral tool/trigger phrasing:** Uses calm, condition-based triggers (`"Use [tool] when..."`) instead of aggressive legacy phrasing (`"CRITICAL: You MUST..."`, all-caps prohibitions, or `"Mandatory..."`) to avoid overtriggering `[Claude docs]`.
-- [ ] **Confidence tags & honesty:** Prompting and behavioral claims in skill guides carry `[Claude docs]`, `[Vendor]`, or `[General]` tags, and undocumented details are marked `unverified` instead of guessed `[General]`.
+- [ ] **Freedom matches fragility:** Judgment-heavy steps use prose guidance, patterned steps use templates, and fragile or destructive operations use exact commands or scripts `[Claude docs]`.
+- [ ] **Confidence tags & honesty (when the skill makes model-behavior claims):** Prompting and behavioral claims carry `[Claude docs]`, `[Vendor]`, or `[General]` tags, undocumented details are marked `unverified` instead of guessed, and procedural steps stay untagged; mark `N/A` for skills without such claims `[General]`.
 - [ ] **Separation of concerns:** Runtime task checklists contain only deliverable verification gates—skill-maintenance self-checks and hardcoded historical logs live outside runtime checklists `[General]`.
 
 ## 5. Validation, Versioning & Eval Readiness

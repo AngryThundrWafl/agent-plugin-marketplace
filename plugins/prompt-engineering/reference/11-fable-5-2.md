@@ -14,6 +14,8 @@ This is a condensed digest, not the official text. Blocks labelled **verbatim** 
 
 Scope note: the page covers Fable 5.2 and Mythos 5.2 together. Mythos 5.2 offers the same capabilities only to organizations verified through the Cyber / Life Sciences Verification Programs. [Claude docs]
 
+Contents: 0 New conversations only · 1 Effort · 2 Finish the task · 3 Code ownership · 4 Progress updates · 5 Subagents · 6 Caution pile-up · 7 Legacy prompt review · 8 Reports · 9 Refusals · 10 Where to start · 11 Synthesis · 12 Gaps
+
 ## 0. Apply changes in new conversations only [Claude docs]
 
 - Suggested system-prompt additions, tool-description changes and line removals should go into **new** conversations only.

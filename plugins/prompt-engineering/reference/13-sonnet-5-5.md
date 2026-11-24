@@ -14,6 +14,8 @@ Condensed digest, not official text. **Verbatim** blocks are copied exactly from
 
 Baseline [Claude docs]: Existing Sonnet 5 prompts generally perform well unchanged; for the hardest long-horizon tasks, prefer an Opus model. Five breaking API changes vs. Sonnet 5 are documented in the Sonnet 5.5 migration guide (not fetched here → details `unverified`).
 
+Contents: 1 Effort · 2 Initiative & scope · 3 `between_tools` · 4 JSON reasoning · 5 Progress, tools, mid-turn messages & verification · 6 Refusals · 7 Synthesis & gaps
+
 ## 1. Calibrate effort [Claude docs]
 
 - Effort levels are **recalibrated** vs. Sonnet 5; run a fresh effort sweep against your evals rather than carrying over Sonnet 5 settings.

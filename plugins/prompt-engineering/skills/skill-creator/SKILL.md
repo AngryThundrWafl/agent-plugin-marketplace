@@ -1,8 +1,8 @@
 ---
 name: skill-creator
-description: Create, update, and audit portable Agent Skills following the agentskills.io specification and the plugin's distilled Prompting Reference Pack. Use when authoring a new skill, refactoring SKILL.md, structuring progressive-disclosure references, or validating skill compliance.
+description: Creates, refactors, and audits portable Agent Skills (SKILL.md, frontmatter, references, scripts) against the agentskills.io spec and Anthropic authoring best practices. Use when writing a new skill, restructuring an existing one, reviewing a skill or plugin for compliance, or fixing skill triggering.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Skill Creator
@@ -44,6 +44,14 @@ Load only the resources needed for the active task so startup and runtime contex
 1. **Clarify scope & triggers:** Define success criteria, target harnesses/models, and trigger/non-trigger boundaries.
 2. **Ground in leaf references:** Load only the matching reference file(s) from the table above before drafting instructions.
 3. **Structure progressive disclosure:** Keep `SKILL.md` thin and route directly (one level deep) to self-contained leaf files under `references/`, `scripts/`, `assets/`, or shared plugin references.
-4. **Author valid frontmatter:** Use only allowed `agentskills.io` keys, match `name` to the parent directory, and write a clean single-line `description` with triggers.
+4. **Author valid frontmatter:** Use only allowed `agentskills.io` keys, match `name` to the parent directory, and write a clean single-line, third-person `description` with triggers.
 5. **Write clear, positive guides:** Explain rationale ("why"), use neutral tool triggers, tag claims `[Claude docs]`, `[Vendor]`, `[General]`, or `unverified`, and link rather than duplicate model rules.
 6. **Validate & iterate:** Verify every gate in [references/checklist.md](references/checklist.md), run repository/CLI validators, and refine one variable per iteration against evals.
+
+## Audit Mode
+
+When asked to audit or review existing skills, report before editing so the user stays in control of changes:
+
+1. Grade every gate in [references/checklist.md](references/checklist.md) per skill as **PASS**, **FAIL**, or **N/A**, citing `path:line` for each failure.
+2. Propose prioritized fixes grouped by file, noting any required version bump.
+3. Apply fixes only after the user approves them, then re-run the validators.
