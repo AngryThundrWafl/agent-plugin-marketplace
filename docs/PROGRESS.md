@@ -2,7 +2,7 @@
 
 - [x] Phase 0: Preflight, skeleton directories, defaults ADR (`docs/decisions/0001-defaults.md`), `.cache/` gitignored.
 - [x] Phase 1: Research specs & schemas into `docs/specs/` and `schemas/` (7 spec files authored + fresh-reviewed once; 3 official schemas pinned unmodified).
-- [ ] Phase 2: Architecture Decision Records (ADRs) under `docs/decisions/`.
+- [x] Phase 2: Architecture Decision Records (`0002-manifest-placement.md`, `0003-marketplace-catalog.md`, `0004-example-plugin-and-repo-layout.md`).
 - [ ] Phase 3: TypeScript validator, fixtures, and passing tests.
 - [ ] Phase 4: Example plugin (`build-an-agent-plugin`) and marketplace catalog.
 - [ ] Phase 5: Root `AGENTS.md` index (and `CLAUDE.md` if confirmed) + fresh-subagent probe.
