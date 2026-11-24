@@ -2067,6 +2067,63 @@ export function validateMarketplace(
   return createResult(errors, warnings);
 }
 
+function requireAntigravityManifest(
+  pluginDir: string,
+  kind: "Plugin" | "Example plugin",
+  errors: ValidationIssue[],
+): void {
+  const agManifestPath = path.join(
+    pluginDir,
+    ".antigravity-plugin",
+    "plugin.json",
+  );
+  if (!isRegularFile(agManifestPath)) {
+    addError(
+      errors,
+      "ANTIGRAVITY_MANIFEST_MISSING",
+      agManifestPath,
+      `${kind} "${path.basename(pluginDir)}" must include .antigravity-plugin/plugin.json for Google Antigravity support`,
+    );
+  }
+}
+
+function collectSubdirsWithinRoot(
+  parentDir: string,
+  realRepoRoot: string,
+): Map<string, string> {
+  const dirs = new Map<string, string>();
+  if (!isDirectory(parentDir)) {
+    return dirs;
+  }
+
+  const parentContainment = checkExistingPathContainment(
+    realRepoRoot,
+    parentDir,
+  );
+  if (!parentContainment.ok) {
+    return dirs;
+  }
+
+  const entries = fs.readdirSync(parentDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name.startsWith(".")) {
+      continue;
+    }
+    const candidate = path.join(parentDir, entry.name);
+    if (
+      entry.isDirectory() ||
+      (entry.isSymbolicLink() && isDirectory(candidate))
+    ) {
+      const containment = checkExistingPathContainment(realRepoRoot, candidate);
+      if (containment.ok && containment.realPath !== undefined) {
+        dirs.set(containment.realPath, candidate);
+      }
+    }
+  }
+
+  return dirs;
+}
+
 export function validateRepo(
   repoRoot: string,
   options?: ValidatorOptions,
@@ -2095,6 +2152,14 @@ export function validateRepo(
   }
 
   const pluginDirsToValidate = new Map<string, string>();
+  const registeredPluginRealPaths = new Set<string>();
+
+  const examplesRootDir = path.join(repoRoot, "examples");
+  const examplesRootContainment = isDirectory(examplesRootDir)
+    ? checkExistingPathContainment(realRepoRoot, examplesRootDir)
+    : undefined;
+  const realExamplesRoot =
+    examplesRootContainment?.ok ? examplesRootContainment.realPath : undefined;
 
   // Discover plugin directories referenced by .claude-plugin/marketplace.json
   const marketplacePath = path.join(
@@ -2102,7 +2167,8 @@ export function validateRepo(
     ".claude-plugin",
     "marketplace.json",
   );
-  if (isRegularFile(marketplacePath)) {
+  const hasMarketplaceFile = isRegularFile(marketplacePath);
+  if (hasMarketplaceFile) {
     const read = readJsonObject(marketplacePath, "MARKETPLACE");
     if (read.ok && Array.isArray(read.data.plugins)) {
       for (const entry of read.data.plugins) {
@@ -2124,40 +2190,56 @@ export function validateRepo(
           candidate,
         );
         if (containment.ok && containment.realPath !== undefined) {
+          registeredPluginRealPaths.add(containment.realPath);
           pluginDirsToValidate.set(containment.realPath, candidate);
+
+          if (
+            realExamplesRoot !== undefined &&
+            isPathWithinRoot(realExamplesRoot, containment.realPath)
+          ) {
+            const entryName =
+              typeof entry.name === "string" ? entry.name : entry.source;
+            addError(
+              errors,
+              "MARKETPLACE_EXAMPLE_SOURCE_FORBIDDEN",
+              marketplacePath,
+              `Marketplace plugin "${entryName}" must not reference non-installable example directory "${entry.source}"`,
+            );
+          }
         }
       }
     }
   }
 
-  // Also discover any plugin directories under <repoRoot>/plugins/
-  const pluginsRootDir = path.join(repoRoot, "plugins");
-  if (isDirectory(pluginsRootDir)) {
-    const pluginsRootContainment = checkExistingPathContainment(
-      realRepoRoot,
-      pluginsRootDir,
-    );
-    if (pluginsRootContainment.ok) {
-      const entries = fs.readdirSync(pluginsRootDir, { withFileTypes: true });
-      for (const entry of entries) {
-        if (entry.name.startsWith(".")) {
-          continue;
-        }
-        const candidate = path.join(pluginsRootDir, entry.name);
-        if (
-          entry.isDirectory() ||
-          (entry.isSymbolicLink() && isDirectory(candidate))
-        ) {
-          const containment = checkExistingPathContainment(
-            realRepoRoot,
-            candidate,
-          );
-          if (containment.ok && containment.realPath !== undefined) {
-            pluginDirsToValidate.set(containment.realPath, candidate);
-          }
-        }
-      }
+  // Discover installable plugins under <repoRoot>/plugins/
+  const pluginsRootDirs = collectSubdirsWithinRoot(
+    path.join(repoRoot, "plugins"),
+    realRepoRoot,
+  );
+  for (const [realDir, pluginDir] of pluginsRootDirs) {
+    pluginDirsToValidate.set(realDir, pluginDir);
+
+    if (hasMarketplaceFile && !registeredPluginRealPaths.has(realDir)) {
+      const relPlugin = path.relative(realRepoRoot, pluginDir);
+      addError(
+        errors,
+        "MARKETPLACE_UNREGISTERED_PLUGIN",
+        marketplacePath,
+        `Installable plugin directory "${relPlugin}" is not registered in .claude-plugin/marketplace.json`,
+      );
     }
+
+    requireAntigravityManifest(pluginDir, "Plugin", errors);
+  }
+
+  // Discover non-installable educational examples under <repoRoot>/examples/
+  const exampleRootDirs = collectSubdirsWithinRoot(
+    examplesRootDir,
+    realRepoRoot,
+  );
+  for (const [realDir, exampleDir] of exampleRootDirs) {
+    pluginDirsToValidate.set(realDir, exampleDir);
+    requireAntigravityManifest(exampleDir, "Example plugin", errors);
   }
 
   for (const pluginDir of pluginDirsToValidate.values()) {

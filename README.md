@@ -1,149 +1,85 @@
-# Agent Plugins Marketplace
+# Agent Plugin Marketplace
 
-A monorepo of portable agent plugins conforming to the **Agent Plugins Specification v1.0.0** (https://agent-plugins.org/specification). Works with **Claude Code** and **GitHub Copilot CLI** from a single source.
+A harness-agnostic monorepo of portable Agent Plugins conforming to the **Agent Plugins v1.0.0**, **Agent Skills**, and **Google Antigravity v1** specifications. Supports **Claude Code**, **GitHub Copilot CLI**, and **Google Antigravity** from a single repository.
 
-## Specification Compliance
+## Available Plugins
 
-This marketplace implements the Agent Plugins v1.0.0 specification:
+| Plugin | Path | Description |
+| --- | --- | --- |
+| `prompt-engineering` | [`plugins/prompt-engineering/`](plugins/prompt-engineering/README.md) | Live-distilled Prompting Reference Pack for Claude and open-weight models plus `skill-creator` and `prompt-creator` skills. |
 
-- **Manifest** (`plugin.json`) — validated against `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json`
-- **MCP Configuration** (`mcp.json`) — validated against `https://agent-plugins.org/schemas/1.0.0/mcp.schema.json`
-- **Component Discovery** — skills from `skills/`, MCP servers from `mcp.json` (per spec §6.1)
-- **Plugin Names** — enforced per spec §5.5 (1-64 chars, lowercase alphanumeric/hyphen/period, no consecutive `--` or `..`)
-- **Client Extensions** — supported via `extensions` field and top-level directories (per spec §8)
+### Educational Examples (Not Installable)
 
-## Why this works
+* [`examples/build-an-agent-plugin/`](examples/build-an-agent-plugin/README.md) — Reference how-to plugin and skill demonstrating the dual-manifest layout, `SKILL.md` progressive disclosure, and validated `mcp.json` / `mcp_config.json` patterns. It lives under `examples/` (outside `plugins/` and omitted from `.claude-plugin/marketplace.json`) so it is validated in CI for correctness without being installed by marketplace or bulk-install commands.
 
-Both tools converge on compatible manifest formats:
+## How Multi-Harness Support Works
 
-- **Marketplace file** — Claude Code reads `.claude-plugin/marketplace.json`. Copilot CLI (v1.0.74+) reads it from the same `.claude-plugin/` path. One marketplace manifest serves both.
-- **Plugin manifest** — Copilot CLI requires `plugin.json` at plugin root. Claude Code requires it at `<plugin>/.claude-plugin/plugin.json`. This repo keeps a single **canonical** `plugins/<name>/plugin.json` and generates the `.claude-plugin/` copy.
-- **Client extensions** — Per spec §8, client-specific data goes in `extensions` (reverse-domain namespaces) and/or top-level directories (`com.anthropic.claude/`, `com.github.copilot/`). The sync script mirrors these to `.claude-plugin/` for Claude Code.
+Every installable plugin under `plugins/<plugin>/` keeps shared components (`skills/<name>/SKILL.md`) at the plugin root and ships two plugin-level manifests:
 
-```
-agents-plugin-marketplace/
-├── .claude-plugin/
-│   ├── marketplace.json        # generated — do not hand-edit
-│   └── (mirrored client extensions)
-├── plugins/
-│   └── example-plugin/
-│       ├── plugin.json         # canonical manifest — edit this one
-│       ├── mcp.json            # optional MCP servers (validated)
-│       ├── .claude-plugin/     # generated copies
-│       │   ├── plugin.json
-│       │   ├── mcp.json
-│       │   └── com.anthropic.claude/  # mirrored for Claude Code
-│       │   └── com.github.copilot/    # mirrored for Claude Code
-│       ├── agents/             # agent definitions (markdown + frontmatter)
-│       ├── skills/             # skills (subdirs with SKILL.md)
-│       ├── commands/           # slash commands (markdown + frontmatter)
-│       └── hooks/hooks.json    # optional hooks
-├── scripts/
-│   ├── sync-manifests.mjs      # regenerate .claude-plugin/ + marketplace.json
-│   ├── new-plugin.mjs          # scaffold a new plugin (spec-compliant)
-│   └── validate.mjs            # schema validation (AJV + official schemas)
-├── .github/workflows/validate.yml
-├── Dockerfile                  # containerized validation
-└── docker-compose.yml          # compose services for CI
+* **`plugin.json`** — Portable Agent Plugins v1.0.0 manifest (`https://agent-plugins.org/schemas/1.0.0/plugin.schema.json`), consumed by GitHub Copilot CLI and other Agent Plugins 1.0 clients.
+* **`.antigravity-plugin/plugin.json`** — Google Antigravity v1 manifest (`https://antigravity.google/schemas/v1/plugin.json`), which takes precedence over root `plugin.json` in Antigravity without deleting the portable manifest.
+* **`.claude-plugin/marketplace.json`** — Shared marketplace catalog consumed by Claude Code and GitHub Copilot CLI.
+
+## Installation
+
+### Google Antigravity (`agy`)
+
+Google Antigravity reserves named `@<marketplace>` installs for `antigravity-plugins-official` and has no third-party `marketplace add` command. Instead, Antigravity natively bulk-installs all plugins from this repository's `plugins/` directory:
+
+```bash
+# Install all marketplace plugins from GitHub
+agy plugin install https://github.com/AngryThundrWafl/agent-plugin-marketplace
+
+# Or install all marketplace plugins from a local clone
+agy plugin install .
+
+# Or install a single plugin
+agy plugin install ./plugins/prompt-engineering
+agy plugin install https://github.com/AngryThundrWafl/agent-plugin-marketplace/tree/main/plugins/prompt-engineering
+
+# List installed plugins
+agy plugin list --json
 ```
 
-## Quick Start
+For workspace-scoped installation in Antigravity, copy `plugins/<plugin>/` into `.agents/plugins/<plugin>/`.
+
+### Claude Code
+
+```bash
+claude plugin marketplace add ./
+# or from GitHub:
+# claude plugin marketplace add AngryThundrWafl/agent-plugin-marketplace
+
+claude plugin install prompt-engineering@agent-plugin-marketplace
+```
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin marketplace add ./
+# or from GitHub:
+# copilot plugin marketplace add AngryThundrWafl/agent-plugin-marketplace
+
+copilot plugin install prompt-engineering@agent-plugin-marketplace
+```
+
+## Development & Validation
 
 ```bash
 # Install dependencies
 npm install
 
-# Create a new plugin (enforces spec §5.5 naming)
-node scripts/new-plugin.mjs my-plugin
+# Build TypeScript validator
+npm run build
 
-# Edit plugins/my-plugin/plugin.json, add agents/skills/commands/mcp.json
+# Run Vitest test suite
+npm test
 
-# Regenerate manifests (run after any manifest edit)
-node scripts/sync-manifests.mjs
+# Validate marketplace catalog, manifests, MCP configs, skills, and examples
+npm run validate
 
-# Validate everything (schemas, frontmatter, consistency)
-node scripts/validate.mjs
+# Validate an individual plugin with Antigravity CLI (without --strict)
+agy plugin validate ./plugins/prompt-engineering
 ```
 
-## CI / Docker
-
-```bash
-# Build image
-docker build -t agent-plugin-marketplace .
-
-# Validate (exit code 1 on failure)
-docker run --rm agent-plugin-marketplace
-
-# Check manifests are in sync (for CI)
-docker run --rm agent-plugin-marketplace node scripts/sync-manifests.mjs --check
-
-# Or use docker-compose
-docker compose run --rm validate
-docker compose run --rm sync-check
-```
-
-## Installing Locally
-
-**Claude Code**
-
-```
-/plugin marketplace add /absolute/path/to/agent-plugin-marketplace
-/plugin install example-plugin@agents-plugin-marketplace
-```
-
-**GitHub Copilot CLI**
-
-```
-copilot plugin marketplace add /absolute/path/to/agent-plugin-marketplace
-copilot plugin install example-plugin@agents-plugin-marketplace
-```
-
-Both point at the same repo checkout — no separate clone or branch per harness.
-
-## CI Workflow
-
-`.github/workflows/validate.yml` runs on every push/PR:
-1. `sync-manifests.mjs --check` — fails if generated files are stale
-2. `validate.mjs` — validates schemas, frontmatter, naming, consistency
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `node scripts/new-plugin.mjs <name>` | Scaffold new plugin (validates name per spec) |
-| `node scripts/sync-manifests.mjs` | Regenerate `.claude-plugin/` copies + marketplace |
-| `node scripts/sync-manifests.mjs --check` | CI check: exit 1 if stale |
-| `node scripts/validate.mjs` | Full validation (schemas + conventions) |
-
-## Plugin Structure
-
-Each plugin under `plugins/` follows the Agent Plugins standard layout (spec §4.2):
-
-```
-my-plugin/
-├── plugin.json          # required: manifest with $schema, name
-├── mcp.json             # optional: MCP servers with $schema
-├── skills/              # optional: skill directories with SKILL.md
-│   └── my-skill/
-│       ├── SKILL.md
-│       ├── scripts/
-│       └── references/
-├── agents/              # optional: agent markdown with frontmatter
-├── commands/            # optional: command markdown with frontmatter
-├── hooks/hooks.json     # optional: hooks
-├── com.anthropic.claude/  # optional: Claude Code extension
-└── com.github.copilot/    # optional: Copilot CLI extension
-```
-
-## Validation Details
-
-`validate.mjs` checks:
-- `plugin.json` against official schema (draft-2020-12 via AJV)
-- `mcp.json` against official schema (draft-2020-12 via AJV)
-- Plugin name constraints (spec §5.5)
-- Required fields: `$schema`, `name`, `version`, `description`, `author`
-- Directory name matches manifest `name`
-- `.claude-plugin/plugin.json` copy exists
-- YAML frontmatter on all `.md` files in `agents/`, `skills/`, `commands/`
-- Valid JSON for `hooks/hooks.json` and `mcp.json`
-- MCP server config: valid transport, no reserved env vars (`PLUGIN_ROOT`, `PLUGIN_DATA`), valid `cwd` patterns
+> **Note:** Run `agy plugin validate` on individual plugin directories without `--strict` in multi-tool repositories (root `plugin.json` emits an expected warning because `.antigravity-plugin/plugin.json` takes precedence). Do not run `agy plugin validate .claude-plugin/marketplace.json`, as Antigravity's `marketplace.json` schema uses an object `source` rather than Claude/Copilot's `./plugins/...` string paths.

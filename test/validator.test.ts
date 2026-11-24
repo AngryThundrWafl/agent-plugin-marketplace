@@ -1,5 +1,7 @@
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import {
   checkSecretsInObject,
   validateAntigravityManifest,
@@ -337,5 +339,106 @@ describe("checkSecretsInObject (Rule 9)", () => {
     );
 
     expect(issues).toEqual([]);
+  });
+});
+
+describe("validateRepo Antigravity and examples enforcement", () => {
+  const tempDirs: string[] = [];
+
+  afterAll(() => {
+    for (const dir of tempDirs) {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  function createTempRepo(): string {
+    const repoDir = fs.mkdtempSync(
+      path.join(os.tmpdir(), "agent-plugin-repo-test-"),
+    );
+    tempDirs.push(repoDir);
+    fs.cpSync(VALID_REPO_DIR, repoDir, { recursive: true });
+    return repoDir;
+  }
+
+  it("rejects an installable plugin in plugins/ that is omitted from .claude-plugin/marketplace.json", () => {
+    const repoDir = createTempRepo();
+    const extraPluginDir = path.join(repoDir, "plugins", "unlisted-plugin");
+    fs.cpSync(VALID_PLUGIN_DIR, extraPluginDir, { recursive: true });
+    for (const manifestPath of [
+      path.join(extraPluginDir, "plugin.json"),
+      path.join(extraPluginDir, ".antigravity-plugin", "plugin.json"),
+    ]) {
+      const parsed = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as Record<
+        string,
+        unknown
+      >;
+      parsed.name = "unlisted-plugin";
+      fs.writeFileSync(manifestPath, JSON.stringify(parsed, null, 2), "utf8");
+    }
+
+    const result = validateRepo(repoDir, { schemasDir: SCHEMAS_DIR });
+    expectValidResultShape(result);
+    expect(result.ok).toBe(false);
+    expect(
+      hasIssueMatching(result.errors, /MARKETPLACE_UNREGISTERED_PLUGIN/i),
+    ).toBe(true);
+  });
+
+  it("rejects an installable plugin in plugins/ that is missing .antigravity-plugin/plugin.json", () => {
+    const repoDir = createTempRepo();
+    fs.rmSync(
+      path.join(
+        repoDir,
+        "plugins",
+        "sample-plugin",
+        ".antigravity-plugin",
+      ),
+      { recursive: true, force: true },
+    );
+
+    const result = validateRepo(repoDir, { schemasDir: SCHEMAS_DIR });
+    expectValidResultShape(result);
+    expect(result.ok).toBe(false);
+    expect(
+      hasIssueMatching(result.errors, /ANTIGRAVITY_MANIFEST_MISSING/i),
+    ).toBe(true);
+  });
+
+  it("validates non-installable examples/ without requiring marketplace registration and rejects marketplace entries targeting examples/", () => {
+    const repoDir = createTempRepo();
+    const exampleDir = path.join(repoDir, "examples", "demo-example");
+    fs.cpSync(VALID_PLUGIN_DIR, exampleDir, { recursive: true });
+
+    const validResult = validateRepo(repoDir, { schemasDir: SCHEMAS_DIR });
+    expectValidResultShape(validResult);
+    expect(validResult.ok).toBe(true);
+
+    const marketplacePath = path.join(
+      repoDir,
+      ".claude-plugin",
+      "marketplace.json",
+    );
+    const catalog = JSON.parse(
+      fs.readFileSync(marketplacePath, "utf8"),
+    ) as {
+      plugins: Array<Record<string, unknown>>;
+    };
+    catalog.plugins.push({
+      name: "sample-plugin-example",
+      source: "./examples/demo-example",
+      version: "1.0.0",
+      description: "Should not be registered in marketplace.json.",
+    });
+    fs.writeFileSync(marketplacePath, JSON.stringify(catalog, null, 2), "utf8");
+
+    const invalidResult = validateRepo(repoDir, { schemasDir: SCHEMAS_DIR });
+    expectValidResultShape(invalidResult);
+    expect(invalidResult.ok).toBe(false);
+    expect(
+      hasIssueMatching(
+        invalidResult.errors,
+        /MARKETPLACE_EXAMPLE_SOURCE_FORBIDDEN/i,
+      ),
+    ).toBe(true);
   });
 });
