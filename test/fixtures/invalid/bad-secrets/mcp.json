@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "local": {
+      "type": "stdio",
+      "command": "node",
+      "env": {
+        "API_KEY": "real-secret-123"
+      }
+    },
+    "remote": {
+      "type": "streamable-http",
+      "url": "https://api.example.com/mcp",
+      "headers": {
+        "X-Auth-Token": "tok_live_abc"
+      }
+    }
+  }
+}

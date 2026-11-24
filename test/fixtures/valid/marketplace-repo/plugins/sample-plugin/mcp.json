@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "local": {
+      "type": "stdio",
+      "command": "./bin/server",
+      "args": [
+        "--root",
+        "${PLUGIN_ROOT}",
+        "--data",
+        "${PLUGIN_DATA}/cache"
+      ],
+      "cwd": "${PLUGIN_ROOT}",
+      "env": {
+        "API_KEY": "${API_KEY}",
+        "TOKEN": "",
+        "PASSWORD": "changeme",
+        "SECRET": "example",
+        "DATA_DIR": "${PLUGIN_DATA}/state"
+      }
+    },
+    "remote": {
+      "type": "streamable-http",
+      "url": "https://api.example.com/mcp",
+      "headers": {
+        "X-Tenant": "public"
+      }
+    }
+  }
+}

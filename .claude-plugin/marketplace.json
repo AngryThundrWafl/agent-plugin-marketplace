@@ -1,17 +1,21 @@
 {
-  "name": "agents-plugin-marketplace",
+  "name": "agent-plugin-marketplace",
   "owner": {
-    "name": "Your Name"
+    "name": "Agent Plugin Marketplace Maintainers"
   },
+  "description": "Harness-agnostic Agent Plugins marketplace supporting GitHub Copilot, Claude Code, and Google Antigravity.",
   "metadata": {
-    "description": "Harness-agnostic agent plugins for Claude Code and GitHub Copilot CLI."
+    "description": "Harness-agnostic Agent Plugins marketplace supporting GitHub Copilot, Claude Code, and Google Antigravity.",
+    "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "test-plugin",
-      "source": "./plugins/test-plugin",
-      "description": "TODO: describe what this plugin does.",
-      "version": "0.1.0"
+      "name": "build-an-agent-plugin",
+      "source": "./plugins/build-an-agent-plugin",
+      "version": "1.0.0",
+      "description": "Author, structure, and validate portable Agent Plugins (skills, manifests, and MCP configs) for GitHub Copilot, Claude Code, and Google Antigravity.",
+      "category": "developer-tools",
+      "tags": ["agent-plugins", "skills", "mcp", "marketplace"]
     }
   ]
 }

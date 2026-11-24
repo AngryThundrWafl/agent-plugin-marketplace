@@ -1,0 +1,21 @@
+{
+  "name": "bad-marketplace",
+  "owner": {
+    "name": "Example Maintainers"
+  },
+  "description": "Invalid marketplace fixture with missing plugin source and version disagreement.",
+  "plugins": [
+    {
+      "name": "missing-plugin",
+      "source": "./plugins/does-not-exist",
+      "version": "1.0.0",
+      "description": "Points to a nonexistent plugin directory."
+    },
+    {
+      "name": "version-mismatch-plugin",
+      "source": "./plugins/version-mismatch-plugin",
+      "version": "2.0.0",
+      "description": "Marketplace entry version disagrees with plugin.json."
+    }
+  ]
+}

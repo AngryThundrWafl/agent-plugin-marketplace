@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "remote": {
+      "serverUrl": "https://api.example.com/mcp",
+      "variables": [
+        {
+          "name": "SERVICE_SECRET",
+          "title": "Service Secret",
+          "default": "hardcoded-live-val"
+        }
+      ]
+    }
+  }
+}

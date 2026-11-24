@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "local": {
+      "command": "./bin/server",
+      "args": [
+        "--data",
+        "${PLUGIN_DATA}/cache"
+      ],
+      "cwd": "${PLUGIN_ROOT}",
+      "env": {
+        "DATA_DIR": "${PLUGIN_DATA}/state"
+      }
+    },
+    "remote": {
+      "serverUrl": "https://api.example.com/mcp",
+      "headers": {
+        "X-Tenant": "public"
+      },
+      "variables": [
+        {
+          "name": "SERVICE_API_KEY",
+          "title": "Service API Key",
+          "description": "API key provided by the user at configuration time.",
+          "default": ""
+        },
+        {
+          "name": "SERVICE_TOKEN",
+          "title": "Service Token",
+          "description": "Placeholder token for configuration.",
+          "default": "changeme"
+        }
+      ]
+    }
+  }
+}

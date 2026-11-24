@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "version-mismatch-plugin",
+  "version": "1.0.0",
+  "description": "Plugin whose version is 1.0.0 while marketplace.json claims 2.0.0."
+}

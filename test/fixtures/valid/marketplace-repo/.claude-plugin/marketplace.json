@@ -1,0 +1,16 @@
+{
+  "name": "sample-marketplace",
+  "owner": {
+    "name": "Example Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "description": "Sample valid marketplace fixture for validator tests.",
+  "plugins": [
+    {
+      "name": "sample-plugin",
+      "source": "./plugins/sample-plugin",
+      "version": "1.0.0",
+      "description": "Sample multi-harness plugin for validation testing."
+    }
+  ]
+}
