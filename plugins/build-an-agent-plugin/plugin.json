@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "build-an-agent-plugin",
+  "version": "1.0.0",
+  "description": "Author, structure, and validate portable Agent Plugins (skills, manifests, and MCP configs) for GitHub Copilot, Claude Code, and Google Antigravity.",
+  "author": {
+    "name": "Agent Plugin Marketplace Maintainers"
+  },
+  "license": "MIT",
+  "keywords": [
+    "agent-plugins",
+    "skills",
+    "mcp",
+    "marketplace"
+  ]
+}
