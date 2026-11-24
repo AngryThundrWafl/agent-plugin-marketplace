@@ -42,7 +42,7 @@ Start `SKILL.md` (exact uppercase filename) on line 1 with `---`, a YAML mapping
 | Field | Required | Rules |
 | --- | --- | --- |
 | `name` | Yes | 1–64 chars; lowercase alphanumeric and single `-` only (`a-z`, `0-9`, `-`); no leading/trailing `-`; no `--`; exact match to parent directory name |
-| `description` | Yes | 1–1024 non-empty chars; single line `[General]`; omit `: ` (colon-space) and `<`/`>` `[General]`; omit internal file paths `[General]`; state **what** the skill does, **when** to use it, and trigger keywords |
+| `description` | Yes | 1–1024 non-empty chars; single line; omit `: ` (colon-space) and `<`/`>`; omit internal file paths; write in third person (`"Extracts text from PDFs..."`, not `"I can..."` or `"You can..."`) because it is injected into the system prompt `[Claude docs]`; state **what** the skill does, **when** to use it, and the concrete keywords users say |
 | `license` | No | Short license name or bundled license filename |
 | `compatibility` | No | 1–500 chars if present; include only when genuine runtime/package/network requirements exist |
 | `metadata` | No | Mapping of string keys to **string** values (quote versions, e.g., `"1.1.0"`) |
@@ -60,7 +60,8 @@ Apply the distilled prompting practices from the reference pack:
    - Use neutral triggers (`"Use [tool] when..."`) rather than aggressive legacy phrasing (`"CRITICAL: You MUST..."`) to prevent overtriggering on modern Claude models `[Claude docs]`.
    - Scope subagent spawning to parallel or isolated-context workstreams, and require reading files before editing or answering about their contents `[Claude docs]`.
 6. **Keep model knowledge in one place:** Reference shared model docs from `SKILL.md` rather than duplicating model-card tables, sampling values, or API error lists inside skill guides, preventing drift and wasted context `[General]`.
-7. **Tag provenance and mark gaps:** Tag prompting and behavioral claims `[Claude docs]`, `[Vendor]`, or `[General]`, and mark undocumented behavior `unverified` instead of extrapolating `[General]`.
+7. **Match freedom to fragility:** Give high-freedom prose guidance for judgment-heavy tasks, templates or parameterized skeletons for patterned tasks, and exact commands or scripts for fragile, high-consequence operations `[Claude docs]`.
+8. **Tag provenance where it matters:** When a skill makes claims about model behavior or prompting technique, tag them `[Claude docs]`, `[Vendor]`, or `[General]` and mark undocumented behavior `unverified`. Leave procedural steps untagged so tags stay meaningful.
 
 ## Step 6: Package Supporting Files and Verify Flat Links
 
@@ -70,6 +71,7 @@ Verify every link from `SKILL.md`:
 - Use relative paths from the skill root (`references/authoring-guide.md`, `scripts/check.sh`, or `../../reference/<file>.md` for shared plugin references).
 - Ensure `SKILL.md` loads each companion file conditionally by task rather than forcing every file to load upfront `[General]`.
 - Confirm companion files and shared reference docs contain zero second-hop links or unshipped local scratch paths `[General]`.
+- Start every reference file longer than 100 lines with a short table of contents so a partial read still reveals its full scope `[Claude docs]`.
 
 ## Step 7: Validate
 

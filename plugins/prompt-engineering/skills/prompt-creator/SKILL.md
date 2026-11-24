@@ -1,8 +1,8 @@
 ---
 name: prompt-creator
-description: Design, version, and test prompts for Claude and open-weight models using live-distilled model guides, refusing known family anti-patterns and returning Target, Spec, Prompt, Why, Settings, Tests, Changelog, and Limitations. Use when creating, tuning, or migrating prompts.
+description: Designs, tunes, ports, and tests prompts and system prompts for Claude (Fable, Opus, Sonnet, Haiku) and open-weight models (DeepSeek-R1, Qwen3, gpt-oss, Llama), returning a versioned spec, prompt, runtime settings, and test cases. Use when writing a new prompt, improving or debugging an existing one, or migrating a prompt between models.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Prompt Creator

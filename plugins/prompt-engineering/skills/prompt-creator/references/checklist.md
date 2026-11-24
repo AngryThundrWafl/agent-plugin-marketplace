@@ -38,9 +38,4 @@ Verify zero violations against the loaded model and topic reference file(s):
 - [ ] **One isolated change per iteration:** `Changelog` isolates a single prompt, setting, or schema edit per version bump so eval deltas stay attributable `[Claude docs]` `[General]`.
 - [ ] **Harness boundaries explicit:** `Limitations` clearly separates prompt instructions from harness-enforced controls (permissions, approvals, streaming, retries, refusal handling, and history management) `[Claude docs]` `[General]`.
 
-## Tag Reference `[General]`
-
-- `[Claude docs]` — Directly grounded in the loaded Claude Platform reference file(s).
-- `[Vendor]` — Directly grounded in the loaded open-weight vendor reference file(s).
-- `[General]` — Cross-section or cross-family synthesis; list in `Limitations` until validated on target evals.
-- `unverified` — Parameter or capability omitted by the target's reference file; never extrapolated.
+Tag definitions (`[Claude docs]`, `[Vendor]`, `[General]`, `unverified`) are in the authoring guide header; list every `[General]` item in `Limitations` until validated on target evals.

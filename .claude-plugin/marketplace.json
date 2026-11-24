@@ -12,7 +12,7 @@
     {
       "name": "prompt-engineering",
       "source": "./plugins/prompt-engineering",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "Portable Agent Plugin providing a live-distilled Prompting Reference Pack for Claude and open-weight models plus two skills (skill-creator and prompt-creator) for authoring compliant Agent Skills and tested, versioned prompts.",
       "category": "developer-tools",
       "tags": [

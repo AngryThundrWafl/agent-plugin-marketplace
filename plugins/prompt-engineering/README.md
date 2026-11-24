@@ -37,6 +37,12 @@ Per the Agent Plugins v1.0.0 specification, skills are discovered from immediate
 
 ## Changelog
 
+### 1.3.0 (2026-11-24)
+- Rewrote both skill `description`s in third person with concrete trigger keywords (model families, prompt porting, skill review).
+- Added an Audit Mode section to `skill-creator/SKILL.md`, plus authoring rules and checklist gates for third-person descriptions, matching freedom to task fragility, and tables of contents in files over 100 lines; scoped the provenance-tag gate to skills that make model-behavior claims.
+- Merged the duplicated output contract and skeleton in `prompt-creator/references/authoring-guide.md` (now under 100 lines), removed tags from procedural steps, and replaced the duplicated tag reference in `prompt-creator/references/checklist.md` with a pointer.
+- Added `Contents:` indexes to `reference/05`, `11`, `12`, and `13` (files over 100 lines).
+
 ### 1.2.0 (2026-11-24)
 - Folded open-weight starter skeletons from `reference/04-templates.md` into their per-family leaf guides (`16-deepseek-r1.md`, `17-qwen3.md`, `18-gpt-oss.md`, `19-llama.md`), scoping `04-templates.md` cleanly to Claude starter skeletons and eliminating duplicated sampling values.
 - Removed remaining external-fetch prompts, inline external URLs, and stale phrasing/metadata across `reference/01-claude-core.md`, `03-overlap-and-porting.md`, `10-model-delta-matrix.md`, `12-opus-5-5.md`, `13-sonnet-5-5.md`, and `15-legacy-models.md`.

@@ -12,6 +12,8 @@ covers: Communication style, verbosity, markdown/prose steering, LaTeX opt-out, 
 Tags: `[Claude docs]` = directly from the fetched pages above. `[General]` = cross-section synthesis, must be tested. `unverified` = source pages are silent.
 Scope note: Model-specific defaults (verbosity, progress updates, and structured-output caveats) override general rules when both apply. `[Claude docs]`
 
+Contents: 1 Verbosity · 2 Format & Markdown · 3 Prefill deprecation · 4 Structured outputs · 5 Schema limitations · 6 Feature compatibility · 7 Gaps
+
 ## 1. Communication Style & Verbosity [Claude docs]
 
 Current Claude models default to a direct, grounded, conversational, and concise style—often skipping post-tool summaries to move straight to the next action.
