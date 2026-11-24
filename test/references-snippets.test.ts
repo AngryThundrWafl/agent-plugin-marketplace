@@ -16,7 +16,7 @@ const REPO_ROOT = process.cwd();
 const SCHEMAS_DIR = path.resolve(REPO_ROOT, "schemas");
 const REFERENCES_DIR = path.resolve(
   REPO_ROOT,
-  "plugins",
+  "examples",
   "build-an-agent-plugin",
   "skills",
   "build-an-agent-plugin",

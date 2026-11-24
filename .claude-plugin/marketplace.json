@@ -10,12 +10,19 @@
   },
   "plugins": [
     {
-      "name": "build-an-agent-plugin",
-      "source": "./plugins/build-an-agent-plugin",
+      "name": "prompt-engineering",
+      "source": "./plugins/prompt-engineering",
       "version": "1.0.0",
-      "description": "Author, structure, and validate portable Agent Plugins (skills, manifests, and MCP configs) for GitHub Copilot, Claude Code, and Google Antigravity.",
+      "description": "Portable Agent Plugin providing a live-distilled Prompting Reference Pack for Claude and open-weight models plus two skills (skill-creator and prompt-creator) for authoring compliant Agent Skills and tested, versioned prompts.",
       "category": "developer-tools",
-      "tags": ["agent-plugins", "skills", "mcp", "marketplace"]
+      "tags": [
+        "prompt-engineering",
+        "agent-plugins",
+        "agent-skills",
+        "claude",
+        "open-weight",
+        "evals"
+      ]
     }
   ]
 }

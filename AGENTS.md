@@ -12,8 +12,9 @@ This repository is a harness-agnostic Agent Plugins marketplace (`agent-plugin-m
 
 ## Repository Layout
 
-- `.claude-plugin/marketplace.json` — Shared marketplace catalog read by Claude Code and GitHub Copilot CLI.
-- `plugins/<plugin>/` — Self-contained plugins (`plugins/build-an-agent-plugin/` is the reference how-to):
+- `.claude-plugin/marketplace.json` — Shared marketplace catalog read by Claude Code and GitHub Copilot CLI (lists installable plugins under `plugins/`).
+- `plugins/<plugin>/` — Installable self-contained plugins (also auto-discovered by Antigravity bulk install):
+- `examples/build-an-agent-plugin/` — Non-installable educational reference plugin and authoring guide (kept outside `plugins/` and omitted from `.claude-plugin/marketplace.json` so harnesses do not install it):
   - `plugin.json` — Portable Agent Plugins v1.0.0 manifest (read by Copilot, Cursor, and other portable clients).
   - `.antigravity-plugin/plugin.json` — Google Antigravity v1 manifest; exists alongside root `plugin.json` because Antigravity uses a distinct closed schema and gives `.antigravity-plugin/plugin.json` precedence over root `plugin.json` without deleting the portable manifest. (Claude Code treats `.claude-plugin/marketplace.json` as the manifest for skills-only plugins.)
   - `skills/<name>/SKILL.md` — Shared Agent Skills entrypoints with optional one-level-deep `references/`.
