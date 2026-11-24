@@ -2,7 +2,6 @@
 
 - **Date:** 2026-11-24
 - **Status:** Accepted
-- **Sources:** `docs/specs/claude-marketplaces.md`, `docs/specs/copilot-plugins.md`, `docs/specs/antigravity.md`
 
 ## Context
 
@@ -14,8 +13,8 @@ Agent Plugins v1.0.0 defines no marketplace catalog format. Among our three firs
 ## Decision
 
 1. Maintain a single catalog at **`.claude-plugin/marketplace.json`** with marketplace `name: "agent-plugin-marketplace"` (per ADR 0001).
-2. Every entry in `plugins[]` MUST use a `./`-prefixed relative `source` path (e.g., `"./plugins/build-an-agent-plugin"`) with forward slashes and no `..`, and its `name` and `version` MUST match both the portable `plugin.json` and `.antigravity-plugin/plugin.json` inside that directory.
-3. Document the exact per-harness "add marketplace / install plugin" commands in `docs/specs/antigravity.md`, `docs/specs/claude-marketplaces.md`, `docs/specs/copilot-plugins.md`, and the example plugin's `README.md`:
+2. Every entry in `plugins[]` MUST use a `./`-prefixed relative `source` path (e.g., `"./plugins/prompt-engineering"`) with forward slashes and no `..`, and its `name` and `version` MUST match both the portable `plugin.json` and `.antigravity-plugin/plugin.json` inside that directory.
+3. Document the exact per-harness "add marketplace / install plugin" commands in each harness spec and root `README.md`:
    - **Claude Code:** `claude plugin marketplace add ./` (or `<owner>/<repo>`) then `claude plugin install <plugin>@agent-plugin-marketplace`
    - **GitHub Copilot CLI:** `copilot plugin marketplace add <local-path-or-owner/repo>` then `copilot plugin install <plugin>@agent-plugin-marketplace`
    - **Google Antigravity:** `agy plugin install ./plugins/<plugin>` (or copy into `.agents/plugins/<plugin>/` for workspace scope)

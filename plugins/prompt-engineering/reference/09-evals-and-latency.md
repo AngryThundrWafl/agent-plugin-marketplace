@@ -56,7 +56,7 @@ Choose the fastest, most reliable, most scalable grading tier that fits the crit
 LLM-based grading tips [Claude docs]:
 - **Write detailed, clear rubrics:** Include explicit auto-fail triggers (e.g., missing required phrase in sentence 1 → `'incorrect'`); use multiple rubrics when one criterion has several facets.
 - **Force empirical/discrete outputs:** Output only `'correct'`/`'incorrect'` or `1–5` inside parseable tags (e.g., `<result>correct</result>`); avoid purely qualitative grades.
-- **Enable thinking on the grader:** Turn [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking) on for the grader model so it reasons before emitting the score; improves accuracy on complex judgment tasks.
+- **Enable thinking on the grader:** Turn thinking on for the grader model so it reasons before emitting the score; improves accuracy on complex judgment tasks.
 
 ## 4. Measure latency [Claude docs]
 
@@ -67,7 +67,7 @@ LLM-based grading tips [Claude docs]:
 
 ### A. Choose the right model and effort
 - For speed-critical workloads, **`claude-haiku-5-5`** delivers the fastest response times while keeping high intelligence.
-- **[Effort](https://platform.claude.com/docs/en/build-with-claude/effort) is its main speed/cost knob:** `output_config: {"effort": "low"}` is cheapest and fastest. Leave headroom in `max_tokens` for thinking even at `low` (API example sets `max_tokens: 1024` with `anthropic-version: 2026-10-21`).
+- **`output_config.effort` is its main speed/cost knob:** `output_config: {"effort": "low"}` is cheapest and fastest. Leave headroom in `max_tokens` for thinking even at `low` (API example sets `max_tokens: 1024` with `anthropic-version: 2026-10-21`).
 
 ### B. Optimize prompt and output length
 - **Be clear and concise:** Trim redundant prompt text without removing domain context Claude needs to infer intent accurately.

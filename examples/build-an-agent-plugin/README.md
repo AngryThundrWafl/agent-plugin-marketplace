@@ -45,8 +45,9 @@ agy plugin validate ./examples/build-an-agent-plugin
 
 ## Versioning Reminder
 
-Whenever you modify files inside an installable plugin under `plugins/<plugin>/`, bump `version` consistently in all three places so harnesses detect updates and repository validation passes:
+Whenever you modify files inside an installable plugin under `plugins/<plugin>/`, bump `version` consistently across all four places so harnesses detect updates and repository validation passes:
 
 1. `plugins/<plugin>/plugin.json`
 2. `plugins/<plugin>/.antigravity-plugin/plugin.json`
 3. `.claude-plugin/marketplace.json`
+4. Each modified skill's `SKILL.md` `metadata.version` (when present)

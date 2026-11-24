@@ -1,7 +1,7 @@
 # Agent Plugins Specification (v1.0.0)
 
 - **Sources:**
-  - https://agent-plugins.org/specification (cloned at `.cache/agent-plugins-spec/spec/1.0.0.md`)
+  - https://agent-plugins.org/specification (Agent Plugins `1.0.0` spec)
   - https://agent-plugins.org/schemas (`schemas/agent-plugins/1.0.0/plugin.schema.json`, `schemas/agent-plugins/1.0.0/mcp.schema.json`)
   - https://agent-plugins.org/plugin-authors/build-an-agent-plugin
   - https://agent-plugins.org/plugin-authors/manifest
@@ -70,5 +70,5 @@
 
 - **Spec wins over schema:** JSON Schema cannot enforce symlink containment, single-token bare `command` (no spaces), remote URL loopback/HTTPS/no-userinfo/no-fragment rules, or case-insensitive duplicate HTTP headers — validators MUST enforce these programmatically beyond JSON Schema.
 - **No marketplace catalog in spec:** Agent Plugins v1.0.0 defines no marketplace catalog format, installation UX, or distribution protocol.
-- **1.1.0 status:** `.cache/agent-plugins-spec/` contains `spec/1.1.0.md` and `schemas/1.1.0/` (adding hooks), but live `https://agent-plugins.org/schemas/1.1.0/*.schema.json` returned HTTP 404 on 2026-11-24; pin `1.0.0`.
+- **1.1.0 status:** Upstream `agent-plugins-spec` drafts `spec/1.1.0.md` and `schemas/1.1.0/` (adding hooks), but live `https://agent-plugins.org/schemas/1.1.0/*.schema.json` returned HTTP 404 on 2026-11-24; pin `1.0.0`.
 - **Prompt injection check:** No agent-directed instructions found in the fetched Agent Plugins sources.

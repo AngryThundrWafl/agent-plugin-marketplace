@@ -31,7 +31,7 @@ Limitation [Claude docs]: None of these eliminate hallucinations completely; alw
 
 ## 2. Increase output consistency [Claude docs]
 
-- **Guaranteed JSON schema conformance:** Use [Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) (`output_config.format` with `json_schema`) instead of prompt-only formatting whenever valid schema-compliant JSON is required.
+- **Guaranteed JSON schema conformance:** Use Structured Outputs (`output_config.format` with `json_schema`) instead of prompt-only formatting whenever valid schema-compliant JSON is required.
 - **Specify exact output format:** Define exact JSON keys, XML schemas, or custom templates when flexibility beyond strict JSON schemas is needed.
 - **Prefill `Assistant` turn (deprecated on modern models):** Prefilling skips preamble and enforces structure on older models, but is **not supported on Claude 4.6 and later models or Claude Mythos Preview**. Use structured outputs or system-prompt instructions instead.
 - **Constrain with examples:** Supplying a concrete output example is more reliable than abstract formatting prose.

@@ -5,8 +5,8 @@ source:
   - https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost
   - https://platform.claude.com/docs/en/build-with-claude/effort
   - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/chain-of-thought (redirects to claude-prompting-best-practices)
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/extended-thinking-tips (redirects to claude-prompting-best-practices)
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/chain-of-thought
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/extended-thinking-tips
 fetched: 2026-11-24
 covers: Adaptive vs manual thinking, budget_tokens deprecation/removal, output_config.effort levels & per-model defaults, thinking.display modes, interleaved thinking, progress updates, block preservation & prefix checks, prompt caching, CoT fallback, cost & sampling limits
 ---
@@ -14,9 +14,7 @@ covers: Adaptive vs manual thinking, budget_tokens deprecation/removal, output_c
 # Claude Thinking & Effort
 
 Tags: `[Claude docs]` = directly from the fetched pages above. `[General]` = cross-section synthesis, must be tested. `unverified` = source pages are silent.
-Redirect note: `chain-of-thought.md` and `extended-thinking-tips.md` redirect to `claude-prompting-best-practices.md`. [Claude docs]
-
-**Workflow rule:** Read the model-specific reference file first (`11-fable-5-2.md`, `12-opus-5-5.md`, etc.) before choosing `effort` or thinking prompts—effort calibrations and thinking constraints vary sharply across model generations. [Claude docs]
+Scope note: Model-specific effort calibrations and thinking constraints override general defaults when both apply. `[Claude docs]`
 
 ## 1. Adaptive vs. Manual Thinking & Per-Model Matrix [Claude docs]
 
@@ -55,7 +53,7 @@ Redirect note: `chain-of-thought.md` and `extended-thinking-tips.md` redirect to
   - **Re-sweep on every model upgrade:** Same level names calibrate differently across versions (e.g., Fable 5.2 vs 5.1, Sonnet 5.5 vs 5, Opus 5.5 `medium` ≥ Opus 5 `high`).
   - **Opus 4.5:** Only extended-thinking-only model supporting `effort`—composes alongside `budget_tokens`.
   - **Output length:** On Opus 5 and Fable 5.2, `effort` barely alters visible reply length—prompt for conciseness/length separately.
-  - **Availability caveat:** Not every model supporting `max` supports `xhigh` (e.g., Opus 4.6 and Sonnet 4.6 list `low`/`medium`/`high`/`max`; see `effort.md` table).
+  - **Availability caveat:** Not every model supporting `max` supports `xhigh` (for example, Opus 4.6 and Sonnet 4.6 support `low`, `medium`, `high`, and `max`, but omit `xhigh`).
 
 ## 3. Reading Thinking Output (`thinking.display`) [Claude docs]
 

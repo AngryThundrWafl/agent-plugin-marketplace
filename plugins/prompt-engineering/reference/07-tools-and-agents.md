@@ -9,9 +9,7 @@ covers: Tool-use action steering, parallel tool calling, long-horizon multi-wind
 # Claude Tool Use & Agentic Systems
 
 Tags: `[Claude docs]` = directly from the fetched page above. `[General]` = cross-section synthesis, must be tested. `unverified` = source page is silent.
-Redirect note: `claude-prompting-best-practices.md` is the living reference for current Claude models (including redirected pages `be-clear-and-direct.md`, `use-xml-tags.md`, `long-context-tips.md`, `chain-of-thought.md`, `extended-thinking-tips.md`). [Claude docs]
-
-**Workflow rule:** Read the model-specific reference file first (`11-fable-5-2.md`, `12-opus-5-5.md`, etc.) before adding tool, subagent, or persistence prompts—models vary on early stopping, over-delegation, and progress narration. [Claude docs]
+Scope note: Model-specific tool, subagent, and persistence behavior overrides general defaults when both apply. `[Claude docs]`
 
 ## 1. Tool Use Steering & Parallelism [Claude docs]
 
@@ -71,7 +69,7 @@ Redirect note: `claude-prompting-best-practices.md` is the living reference for 
   - **Color & theme:** Cohesive CSS-variable palettes with dominant colors + sharp accents (drawn from IDE/cultural aesthetics); avoid purple gradients on white.
   - **Motion:** High-impact orchestrated page loads (`animation-delay` staggered reveals) using CSS-only HTML animations or Motion for React.
   - **Backgrounds & layout:** Layer CSS gradients, geometric patterns, or contextual depth rather than flat solid colors and cookie-cutter layouts; vary light/dark themes.
-- *(Note: On Opus 5.5, generic "avoid AI look" prompts just swap defaults—name specific anti-patterns to avoid; see `12-opus-5-5.md` §11.)* [Claude docs]
+- *(Note: On Opus 5.5, generic "avoid AI look" prompts merely swap defaults—name specific visual anti-patterns to avoid, such as cream backgrounds, italic headline accents, numbered section labels, or pill buttons.)* `[Claude docs]`
 
 ## 7. Cross-Model Synthesis [General] — must be tested
 
@@ -80,4 +78,4 @@ Redirect note: `claude-prompting-best-practices.md` is the living reference for 
 
 ## 8. Gaps / `unverified`
 
-- Specific Claude Managed Agents API parameters, exact subagent cost-accounting formulas, and MCP server registration schemas are outside `claude-prompting-best-practices.md` → `unverified` here.
+- Specific Claude Managed Agents API parameters, exact subagent cost-accounting formulas, and MCP server registration schemas are outside Anthropic's prompting best-practices page → `unverified` here.

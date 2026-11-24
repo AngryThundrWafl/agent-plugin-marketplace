@@ -91,7 +91,7 @@ Use the search tool to check specifics that may have changed since your training
 When you change code that can be run, built, or type-checked, run a real check that exercises the change before reporting it done: the project's tests, type-checker, or build, or the changed command itself. A syntax-only check, or a check command that failed to start, does not count; if all that is missing is the project's declared dependencies, install them with its own package manager and lockfile (for example, npm install or pip install -r requirements.txt), never through sudo or the system package manager, unless told not to. Only if no real check can run here, say which one you did not run and why instead of reporting the change as done.
 ```
 - **Tolerant tool calls:** Occasionally emits wrong letter case (`bash` for `Bash`) or slightly renamed params. Handle via unambiguous case-insensitive matching or return `tool_result` with `is_error: true` stating the exact expected name.
-- **Visual inputs:** Supply a crop/zoom/image-code tool (`https://platform.claude.com/cookbook/multimodal-crop-tool`). Helps charts at all effort levels (`high` + tools beat `max` without tools at lower cost) and technical drawings at `high`+ (most at `xhigh`/`max`).
+- **Visual inputs:** Supply a crop/zoom/image-code tool (`multimodal-crop-tool` cookbook). Helps charts at all effort levels (`high` + tools beat `max` without tools at lower cost) and technical drawings at `high`+ (most at `xhigh`/`max`).
 
 ## 6. Safeguard refusals [Claude docs]
 

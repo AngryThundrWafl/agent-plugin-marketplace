@@ -10,9 +10,7 @@ covers: Communication style, verbosity, markdown/prose steering, LaTeX opt-out, 
 # Claude Output Formatting & Structured Outputs
 
 Tags: `[Claude docs]` = directly from the fetched pages above. `[General]` = cross-section synthesis, must be tested. `unverified` = source pages are silent.
-Redirect note: `claude-prompting-best-practices.md` is the canonical target for redirected prompt-engineering pages (`be-clear-and-direct.md`, `use-xml-tags.md`, `long-context-tips.md`, `chain-of-thought.md`, `extended-thinking-tips.md`). [Claude docs]
-
-**Workflow rule:** Read the model-specific reference file first (`11-fable-5-2.md`, `12-opus-5-5.md`, etc.) before applying formatting or verbosity rules—individual models differ sharply in default verbosity and progress narration. [Claude docs]
+Scope note: Model-specific defaults (verbosity, progress updates, and structured-output caveats) override general rules when both apply. `[Claude docs]`
 
 ## 1. Communication Style & Verbosity [Claude docs]
 
@@ -21,7 +19,7 @@ Current Claude models default to a direct, grounded, conversational, and concise
 - **Model exceptions:**
   - **Claude Opus 5:** Default visible replies are longer; changing `output_config.effort` does **not** reliably shorten visible responses—prompt explicitly for conciseness instead.
   - **Claude Fable 5.1:** Writes fewer user-facing progress updates between tool calls; request progress text explicitly and remove "keep updates brief" constraints.
-  - **Claude Fable 5.2:** See `11-fable-5-2.md` §4 (`display: "updates"` or harness reminders; effort barely changes reply length).
+  - **Claude Fable 5.2:** Use `display: "updates"` or turn-scoped harness reminders for mid-turn updates; changing `effort` barely changes visible reply length.
 
 ## 2. Steering Output Format & Markdown [Claude docs]
 
@@ -47,7 +45,7 @@ Starting with **Claude 4.6** models and **Claude Mythos Preview**, **prefilling 
 
 ## 4. Structured Outputs (`output_config.format` & Strict Tool Use) [Claude docs]
 
-Structured outputs use grammar-constrained decoding so responses never fail JSON parsing, miss required fields, or violate field types. Available on **all models** listed in `structured-outputs.md` (Claude 4.5 through 5.5 and Fable/Mythos 5–5.2) via `/v1/messages` (not available in Managed Agents).
+Structured outputs use grammar-constrained decoding so responses never fail JSON parsing, miss required fields, or violate field types. Available on **all models** documented in Anthropic's structured-outputs guide (Claude 4.5 through 5.5 and Fable/Mythos 5–5.2) via `/v1/messages` (not available in Managed Agents).
 
 - **JSON outputs (`output_config.format`):** Constrains Claude's `text` block output:
   ```json

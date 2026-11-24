@@ -32,9 +32,9 @@ A portable plugin lives in a single directory and keeps all shared components at
 
 ## Containment & Path Rules
 
-- Every component directory (`skills/`, `mcp.json`, `mcp_config.json`) MUST stay at `<plugin-root>`, never inside `.antigravity-plugin/` or `.claude-plugin/`.
-- All plugin-relative and marketplace-relative paths MUST use forward slashes (`/`), begin with `./` (or `"."` for repo-root plugins), never contain `..`, and never resolve via symlinks outside the plugin or repository root.
-- Do not place `CLAUDE.md` or `AGENTS.md` inside a plugin root (Claude Code warns on plugin-root `CLAUDE.md`; Antigravity ignores plugin-root `AGENTS.md` with a warning).
+- Keep every component directory (`skills/`, `mcp.json`, `mcp_config.json`) at `<plugin-root>` rather than inside `.antigravity-plugin/` or `.claude-plugin/` so every harness discovers the shared components consistently.
+- Format all plugin-relative and marketplace-relative paths with forward slashes (`/`), starting with `./` (or `"."` for repo-root plugins), with no `..` segments and no symlinks resolving outside the plugin or repository root.
+- Keep `CLAUDE.md` and `AGENTS.md` at the repository root rather than inside a plugin root, because Claude Code warns on plugin-root `CLAUDE.md` and Antigravity ignores plugin-root `AGENTS.md` with a warning.
 
 ## Validated `.claude-plugin/marketplace.json` Example
 

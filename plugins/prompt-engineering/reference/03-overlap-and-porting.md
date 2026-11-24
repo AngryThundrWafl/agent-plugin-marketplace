@@ -16,7 +16,7 @@ covers: What transfers cleanly vs. what breaks when porting prompts across Claud
 
 # Cross-Family Overlap & Porting Guide
 
-Tags: `[Claude docs]` = from Claude reference files. `[Vendor]` = from open-weight vendor docs. `[General]` = cross-family synthesis (must be tested). `unverified` = source docs silent.
+Tags: `[Claude docs]` = from the fetched Claude Platform docs above. `[Vendor]` = from open-weight vendor docs. `[General]` = cross-family synthesis (must be tested). `unverified` = source docs silent.
 
 ## 1. What Transfers Cleanly Across Families `[General]`
 
@@ -76,7 +76,7 @@ Tags: `[Claude docs]` = from Claude reference files. `[Vendor]` = from open-weig
 
 ## 5. Gaps / `unverified`
 
-- Sampling defaults for `gpt-oss` and Llama 3.3/4, few-shot guidance across all four open-weight families, DeepSeek-R1/0528 tool-call wire schemas, and Llama/DeepSeek grammar-constrained JSON support remain `unverified` in the cached sources. `[Vendor]`
+- Sampling defaults for `gpt-oss` and Llama 3.3/4, few-shot guidance across all four open-weight families, DeepSeek-R1/0528 tool-call wire schemas, and Llama/DeepSeek grammar-constrained JSON support remain `unverified` in the fetched sources. `[Vendor]`
 - Cross-model TTFT/throughput benchmarks and breaking API changes in the unfetched Claude 5.5 migration guides also remain `unverified`. `[Claude docs]`
 
 ## 6. Quick Wire-Format Comparison (`[Claude docs]` vs. `[Vendor]`)
