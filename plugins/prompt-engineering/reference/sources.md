@@ -7,13 +7,15 @@ source:
   - https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
   - https://agentskills.io/specification.md
 fetched: 2026-11-24
-covers: Complete provenance table with exact source URLs, reference pack mappings, fetch date (2026-11-24), redirects, derived vs. embedded open-weight URLs, and Agent Plugins / Agent Skills spec URLs
+covers: Complete provenance table with exact source URLs, reference pack mappings, fetch date (2026-11-24), redirects, Google Gemini API docs and model cards, derived vs. embedded open-weight URLs, and Agent Plugins / Agent Skills spec URLs
 ---
 
 # Reference Pack Source Provenance
 
-Tags: `[Claude docs]` = Anthropic Platform documentation. `[Vendor]` = open-weight vendor cards/guides. `[General]` = pack provenance/maintenance rules. `unverified` = absent from fetched sources.
+Tags: `[Claude docs]` = Anthropic Platform documentation. `[Vendor]` = Google Gemini, DeepSeek, Qwen, OpenAI, and Meta documentation/model cards. `[General]` = pack provenance/maintenance rules. `unverified` = absent from fetched sources.
 All primary sources below were fetched on **`2026-11-24`**. The distilled files in this directory are the committed runtime reference. `[General]`
+
+Contents: 1 Claude core · 2 Claude model-specific · 3 Open-weight cards · 4 Google Gemini docs & cards · 5 Agent Plugins & Skills specs · 6 Verification notes
 
 ## 1. Claude Platform Core, Formatting, Thinking, Guardrails & Evals (`[Claude docs]`)
 
@@ -71,7 +73,26 @@ All primary sources below were fetched on **`2026-11-24`**. The distilled files 
 | `19-llama.md` | **Llama 3.3 & 4 Prompt Format Docs** | `https://github.com/meta-llama/llama-models` | **Derived** from model-card repo links. | `2026-11-24` |
 | `19-llama.md` | **Meta Llama 4 (`Scout` / `Maverick`)** | `https://huggingface.co/meta-llama` | **Derived** (exact HF repo slug not embedded); card embeds `https://github.com/meta-llama/llama-models/blob/main/models/llama4/LICENSE`. | `2026-11-24` |
 
-## 4. Agent Plugins 1.0.0 & Agent Skills Specifications (`[Vendor]`)
+## 4. Google Gemini API Docs & DeepMind Model Cards (`20`–`21`, `[Vendor]`)
+
+| Reference File(s) | Model / Topic | Exact URL | Fetched | Notes |
+| --- | --- | --- | --- | --- |
+| `20`, `21`, `03`, `10` | **Gemini API Models** | `https://ai.google.dev/gemini-api/docs/models` | `2026-11-24` | Model IDs, limits, modalities, capabilities. |
+| `20`, `21`, `03` | **Prompting Strategies** | `https://ai.google.dev/gemini-api/docs/prompting-strategies` | `2026-11-24` | Structure, system instructions, long context. |
+| `20`, `21`, `03`, `10` | **Gemini Thinking** | `https://ai.google.dev/gemini-api/docs/thinking` | `2026-11-24` | `thinking_level`, `include_thoughts`, `max_output_tokens`. |
+| `20`, `21`, `03`, `10` | **Thought Signatures** | `https://ai.google.dev/gemini-api/docs/thought-signatures` | `2026-11-24` | Encrypted reasoning state & `400` enforcement. |
+| `20`, `21` | **Interactions API** | `https://ai.google.dev/gemini-api/docs/interactions` | `2026-11-24` | Stateful `store: true` / `previous_interaction_id` vs. stateless steps. |
+| `20`, `21`, `03` | **Structured Outputs** | `https://ai.google.dev/gemini-api/docs/structured-outputs` | `2026-11-24` | `response_mime_type`, `response_json_schema`, Pydantic/Zod. |
+| `20`, `21` | **Function Calling** | `https://ai.google.dev/gemini-api/docs/function-calling` | `2026-11-24` | Tool declarations, parallel calls, signature continuity. |
+| `20` | **Context Caching** | `https://ai.google.dev/gemini-api/docs/caching` | `2026-11-24` | Implicit caching rules (`>=4,096` tokens on Gemini 4). |
+| `20` | **DeepMind Model Cards Hub** | `https://deepmind.google/models` | `2026-11-24` | Index to DeepMind model cards. |
+| `20` | **Gemini 4 Carbon Card** | `https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Carbon-Model-Card.pdf` | `2026-11-24` | Official DeepMind model card PDF. |
+| `20` | **Gemini 4 Neon Card** | `https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Neon-Model-Card.pdf` | `2026-11-24` | Official DeepMind model card PDF. |
+| `20` | **Gemini 4 Hydrogen Card** | `https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Hydrogen-Model-Card.pdf` | `2026-11-24` | Official DeepMind model card PDF. |
+| `20` | **Gemini 4 Argon Card** | `https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Argon-Model-Card.pdf` | `2026-11-24` | Official DeepMind model card PDF. |
+| `21` | **Gemini 3.8 Flash Card** | `https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-3-8-Flash-Model-Card.pdf` | `2026-11-24` | Official DeepMind model card PDF. |
+
+## 5. Agent Plugins 1.0.0 & Agent Skills Specifications (`[Vendor]`)
 
 | Spec Artifact | Exact Fetched URL | HTTP Status & Content-Type | Fetched |
 | --- | --- | --- | --- |
@@ -87,7 +108,7 @@ All primary sources below were fetched on **`2026-11-24`**. The distilled files 
 | **MCP Servers Authoring** | `https://agent-plugins.org/plugin-authors/mcp-servers` | `200` (`text/html; charset=utf-8`) | `2026-11-24` |
 | **Client Extensions Authoring** | `https://agent-plugins.org/plugin-authors/client-extensions` | `200` (`text/html; charset=utf-8`) | `2026-11-24` |
 
-## 5. Provenance & Verification Notes `[General]`
+## 6. Provenance & Verification Notes `[General]`
 
 - **Claude redirects:** `be-clear-and-direct`, `use-xml-tags`, `long-context-tips`, `chain-of-thought`, and `extended-thinking-tips` all resolve to `claude-prompting-best-practices`. `[Claude docs]`
 - **Unfetched cross-references (`unverified`):** The Opus 5.5 (4 breaking API changes), Sonnet 5.5 (5 breaking API changes), and Haiku 5.5 migration guides, Managed Agents API specs, and `multimodal-crop-tool` cookbook code were not separately fetched—their unstated details remain `unverified`. `[General]`

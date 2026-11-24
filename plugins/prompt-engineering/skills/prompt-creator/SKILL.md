@@ -1,13 +1,13 @@
 ---
 name: prompt-creator
-description: Designs, tunes, ports, and tests prompts and system prompts for Claude (Fable, Opus, Sonnet, Haiku) and open-weight models (DeepSeek-R1, Qwen3, gpt-oss, Llama), returning a versioned spec, prompt, runtime settings, and test cases. Use when writing a new prompt, improving or debugging an existing one, or migrating a prompt between models.
+description: Designs, tunes, ports, and tests prompts and system prompts for Claude (Fable, Opus, Sonnet, Haiku), Google Gemini (Gemini 4, Gemini 3.8 Flash), and open-weight models (DeepSeek-R1, Qwen3, gpt-oss, Llama), returning a versioned spec, prompt, runtime settings, and test cases. Use when writing a new prompt, improving or debugging an existing one, or migrating a prompt between models.
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Prompt Creator
 
-Follow a spec-first, reference-grounded, one-change-per-iteration workflow to design, version, and test prompts for Claude and open-weight models.
+Follow a spec-first, reference-grounded, one-change-per-iteration workflow to design, version, and test prompts for Claude, Google Gemini, and open-weight models.
 
 ## On-Demand Loading (One-Level-Deep)
 
@@ -15,7 +15,7 @@ Load only the resources needed for the active task so context stays focused on t
 
 - **Creating, tuning, or migrating a prompt:** Read [references/authoring-guide.md](references/authoring-guide.md) for the 7-step workflow and 8-section output contract.
 - **Verifying a prompt deliverable before returning:** Read [references/checklist.md](references/checklist.md) to run every pass/fail gate.
-- **Grounding in model & topic rules:** Read **only** the matching leaf file(s) below directly from `SKILL.md` before drafting. Load the target model file (`11`–`19`) first because model-specific behavior overrides general defaults (`01`, `03`–`09`).
+- **Grounding in model & topic rules:** Read **only** the matching leaf file(s) below directly from `SKILL.md` before drafting. Load the target model file (`11`–`21`) first because model-specific behavior overrides general defaults (`01`, `03`–`09`).
 
 | Target / Topic | Leaf Reference File |
 | --- | --- |
@@ -28,6 +28,8 @@ Load only the resources needed for the active task so context stays focused on t
 | Qwen3 (`235B-A22B`, `32B`, `2507` variants) | [../../reference/17-qwen3.md](../../reference/17-qwen3.md) |
 | OpenAI `gpt-oss` (`120b`, `20b`) & Harmony | [../../reference/18-gpt-oss.md](../../reference/18-gpt-oss.md) |
 | Meta Llama 3.3 & Llama 4 (`Scout`, `Maverick`) | [../../reference/19-llama.md](../../reference/19-llama.md) |
+| Google Gemini 4 (`Carbon`, `Neon`, `Hydrogen`, `Argon`) | [../../reference/20-gemini-4.md](../../reference/20-gemini-4.md) |
+| Google Gemini 3.8 Flash (`gemini-3.8-flash`) | [../../reference/21-gemini-3-8-flash.md](../../reference/21-gemini-3-8-flash.md) |
 | Claude core principles & prerequisites | [../../reference/01-claude-core.md](../../reference/01-claude-core.md) |
 | Cross-family overlap & porting rules | [../../reference/03-overlap-and-porting.md](../../reference/03-overlap-and-porting.md) |
 | Condensed Claude prompt skeletons | [../../reference/04-templates.md](../../reference/04-templates.md) |
@@ -36,7 +38,7 @@ Load only the resources needed for the active task so context stays focused on t
 | Tools, parallel calls, subagents, coding guardrails | [../../reference/07-tools-and-agents.md](../../reference/07-tools-and-agents.md) |
 | Hallucinations, consistency, jailbreaks, indirect injection | [../../reference/08-guardrails.md](../../reference/08-guardrails.md) |
 | Success criteria, automated grading, latency tuning | [../../reference/09-evals-and-latency.md](../../reference/09-evals-and-latency.md) |
-| Cross-model delta matrix (Claude & open-weight) | [../../reference/10-model-delta-matrix.md](../../reference/10-model-delta-matrix.md) |
+| Cross-model delta matrix (Claude, Gemini, open-weight) | [../../reference/10-model-delta-matrix.md](../../reference/10-model-delta-matrix.md) |
 | Source provenance & fetch dates | [../../reference/sources.md](../../reference/sources.md) |
 
 ## Core Execution Principles
