@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bad-mcp-reserved-env",
+  "version": "1.0.0",
+  "description": "Plugin setting reserved PLUGIN_ROOT and PLUGIN_DATA env vars in mcp.json."
+}

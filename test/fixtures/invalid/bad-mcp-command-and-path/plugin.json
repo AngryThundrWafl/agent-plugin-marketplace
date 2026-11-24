@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bad-mcp-command-and-path",
+  "version": "1.0.0",
+  "description": "Plugin with invalid stdio command tokens and escaping/non-relative cwd paths."
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://example.com/schemas/plugin.schema.json",
+  "name": "Bad--Plugin",
+  "version": "1.0.0",
+  "description": "Plugin with invalid name and non-canonical $schema."
+}

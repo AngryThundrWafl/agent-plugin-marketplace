@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sample-plugin",
+  "version": "1.0.0",
+  "description": "Sample multi-harness plugin for validation testing.",
+  "author": {
+    "name": "Example Maintainers",
+    "email": "maintainers@example.com",
+    "url": "https://example.com"
+  },
+  "homepage": "https://example.com/sample-plugin",
+  "repository": "https://github.com/example/sample-plugin",
+  "license": "MIT",
+  "keywords": [
+    "sample",
+    "agent-plugin"
+  ]
+}

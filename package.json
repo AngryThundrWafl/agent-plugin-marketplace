@@ -1,15 +1,21 @@
 {
-  "name": "agents-plugin",
+  "name": "agent-plugin-marketplace",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "sync": "node scripts/sync-manifests.mjs",
-    "sync:check": "node scripts/sync-manifests.mjs --check",
-    "new-plugin": "node scripts/new-plugin.mjs",
-    "validate": "node scripts/validate.mjs"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate": "node dist/cli.js"
   },
   "dependencies": {
-    "ajv": "^8.20.0",
-    "ajv-formats": "^3.0.1"
+    "ajv": "^8.17.1",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.5"
   }
 }

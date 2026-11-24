@@ -1,0 +1,19 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "sample-plugin",
+  "displayName": "Sample Reference",
+  "version": "1.0.0",
+  "description": "Sample multi-harness plugin for validation testing.",
+  "author": {
+    "name": "Example Maintainers",
+    "email": "maintainers@example.com",
+    "url": "https://example.com"
+  },
+  "homepage": "https://example.com/sample-plugin",
+  "repository": "https://github.com/example/sample-plugin",
+  "license": "MIT",
+  "keywords": [
+    "sample",
+    "agent-plugin"
+  ]
+}

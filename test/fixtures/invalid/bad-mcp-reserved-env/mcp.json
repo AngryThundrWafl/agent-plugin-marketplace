@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "local": {
+      "type": "stdio",
+      "command": "node",
+      "env": {
+        "PLUGIN_ROOT": "/tmp/override-root",
+        "PLUGIN_DATA": "/tmp/override-data"
+      }
+    }
+  }
+}

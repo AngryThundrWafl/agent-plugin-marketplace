@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bad-secrets",
+  "version": "1.0.0",
+  "description": "Plugin containing hardcoded secret values in mcp.json and mcp_config.json."
+}

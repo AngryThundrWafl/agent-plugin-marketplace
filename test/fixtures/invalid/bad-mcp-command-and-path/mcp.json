@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "multi-token": {
+      "type": "stdio",
+      "command": "node ./bin/server"
+    },
+    "escaping-command": {
+      "type": "stdio",
+      "command": "../outside"
+    },
+    "escaping-cwd": {
+      "type": "stdio",
+      "command": "node",
+      "cwd": "./../../outside"
+    },
+    "bare-cwd": {
+      "type": "stdio",
+      "command": "node",
+      "cwd": "data"
+    }
+  }
+}

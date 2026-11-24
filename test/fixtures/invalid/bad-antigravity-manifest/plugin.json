@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bad-antigravity-manifest",
+  "version": "1.0.0",
+  "description": "Valid Agent Plugins manifest paired with an invalid Antigravity manifest."
+}

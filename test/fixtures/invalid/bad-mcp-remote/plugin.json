@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bad-mcp-remote",
+  "version": "1.0.0",
+  "description": "Plugin with insecure non-loopback HTTP URL and duplicate case-insensitive headers."
+}
