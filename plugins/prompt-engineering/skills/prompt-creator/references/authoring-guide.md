@@ -4,7 +4,7 @@ Use this leaf procedure to design, tune, migrate, and version prompts using the 
 
 **Provenance tags** (used on claims about model behavior, and on every bullet in the deliverable's `Why` section):
 - `[Claude docs]` — directly supported by the loaded Claude Platform reference file(s).
-- `[Vendor]` — directly supported by the loaded open-weight vendor reference file(s).
+- `[Vendor]` — directly supported by the loaded vendor reference file(s) (Google Gemini, DeepSeek, Qwen, OpenAI, Meta).
 - `[General]` — cross-section or cross-family synthesis requiring empirical verification on target evals.
 - `unverified` — parameter or behavior omitted by the target's reference file; keep it explicit instead of extrapolating across models.
 
@@ -14,8 +14,8 @@ Use this leaf procedure to design, tune, migrate, and version prompts using the 
 
 ### Step 1 — Identify Target Model & Deployment Surface
 Record the exact target context before drafting so every downstream rule stays model-scoped:
-- **Exact model ID / family:** The specific Claude model (`Fable 5.2` / `Mythos 5.2`, `Opus 5.5`, `Sonnet 5.5`, `Haiku 5.5`, or legacy Claude) or open-weight checkpoint (`DeepSeek-R1` / `R1-0528`, `Qwen3` / `2507`, `gpt-oss`, `Llama 3.3` / `Llama 4`).
-- **Deployment surface:** Direct Messages API, interactive chat UI, autonomous agent/tool loop, Message Batches, or self-hosted open-weight runtime (`vLLM`, `SGLang`, `Transformers`, `openai-harmony`).
+- **Exact model ID / family:** The specific Claude model (`Fable 5.2` / `Mythos 5.2`, `Opus 5.5`, `Sonnet 5.5`, `Haiku 5.5`, or legacy Claude), Google Gemini model (`gemini-4-carbon`, `gemini-4-neon`, `gemini-4-hydrogen`, `gemini-4-argon`, or `gemini-3.8-flash`), or open-weight checkpoint (`DeepSeek-R1` / `R1-0528`, `Qwen3` / `2507`, `gpt-oss`, `Llama 3.3` / `Llama 4`).
+- **Deployment surface:** Direct Messages API, Gemini `GenerateContent` / Interactions API, interactive chat UI, autonomous agent/tool loop, Message Batches, or self-hosted open-weight runtime (`vLLM`, `SGLang`, `Transformers`, `openai-harmony`).
 - **Migration source (if porting):** Name the source model so obsolete scaffolding (deprecated API parameters, incompatible chat tokens, aggressive tool-trigger wording, legacy verification nudges) is audited and pruned before adding new instructions `[Claude docs]`.
 
 ### Step 2 — Apply Loaded Reference Precedence
@@ -32,7 +32,7 @@ Lock down the specification before drafting prompt text so instructions target c
 
 ### Step 4 — Draft the Prompt & Refuse Documented Anti-Patterns
 - Write clear, literal instructions that pass the colleague test, use numbered steps when order matters, use positive framing aligned to the desired output format, and explain **why** key constraints matter `[Claude docs]`.
-- Structure instructions, context, untrusted inputs, and examples using the target family's native roles and delimiters (XML tags and `tool_result` on Claude; native role/token envelopes on open-weight families) `[Claude docs]` `[Vendor]`.
+- Structure instructions, context, untrusted inputs, and examples using the target family's native roles and delimiters (XML tags and `tool_result` on Claude; `system_instruction` + XML/Markdown on Gemini; native role/token envelopes on open-weight families) `[Claude docs]` `[Vendor]`.
 - For long context, place source material above instructions and require verbatim quote or citation grounding before synthesis `[Claude docs]`.
 - **Refuse target anti-patterns:** Exclude every technique the loaded files document as causing API errors, quality collapse, repetition loops, token mixing, or safeguard refusals on the target, replacing each with the documented alternative.
 - **Prune legacy scaffolding on migrations:** Remove carried-over workarounds that degrade the target model before layering on new rules `[Claude docs]`.

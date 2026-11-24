@@ -1,5 +1,5 @@
 ---
-name: Model delta matrix across Claude models and open-weight families
+name: Model delta matrix across Claude, Google Gemini, and open-weight families
 source:
   - https://platform.claude.com/docs/en/build-with-claude/thinking
   - https://platform.claude.com/docs/en/build-with-claude/effort
@@ -18,13 +18,23 @@ source:
   - https://huggingface.co/openai/gpt-oss-120b
   - https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
   - https://huggingface.co/meta-llama
+  - https://ai.google.dev/gemini-api/docs/models
+  - https://ai.google.dev/gemini-api/docs/thinking
+  - https://ai.google.dev/gemini-api/docs/thought-signatures
+  - https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Carbon-Model-Card.pdf
+  - https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Neon-Model-Card.pdf
+  - https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Hydrogen-Model-Card.pdf
+  - https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Argon-Model-Card.pdf
+  - https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-3-8-Flash-Model-Card.pdf
 fetched: 2026-11-24
-covers: Side-by-side matrix of all covered Claude models (Fable 5.2/Mythos 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1, Fable 5, Opus 5, Opus 4.8, Sonnet 5), migration triggers, and summary table of open-weight families
+covers: Side-by-side matrix of covered Claude models, Google Gemini (Gemini 4 and 3.8 Flash), and open-weight families, migration triggers, and API compatibility snapshot
 ---
 
 # Model Delta Matrix
 
-Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking documentation. `[Vendor]` = from open-weight vendor model cards. `[General]` = cross-model synthesis (must be tested). `unverified` = source docs silent.
+Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking documentation. `[Vendor]` = from Google Gemini docs and open-weight vendor model cards. `[General]` = cross-model synthesis (must be tested). `unverified` = source docs silent.
+
+Contents: 1 Current Claude · 2 Legacy Claude · 3 Google Gemini · 4 Open-weight families · 5 Upgrade & tune · 6 Claude migrations · 7 API compatibility · 8 Gaps
 
 ## 1. Current Claude Models (`5.2` / `5.5`) `[Claude docs]`
 
@@ -47,7 +57,17 @@ Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking document
 
 *(Note: `Opus 4.6`/`Sonnet 4.6` default to thinking off and still accept deprecated `budget_tokens` with `xhigh` unavailable; `4.5` models lack adaptive thinking and support manual `budget_tokens` only.)* `[Claude docs]`
 
-## 3. Open-Weight Family Summary `[Vendor]`
+## 3. Google Gemini Models (`Gemini 4` & `3.8 Flash`) `[Vendor]`
+
+| Model | `thinking_level` & Defaults | Context & Output Limits | Sampling, Caching & Modalities | Key Gotchas & Migration Triggers |
+| :--- | :--- | :--- | :--- | :--- |
+| **`gemini-4-carbon`** | `low`, `medium` (default), `high` (`xhigh`: `unverified`) | `1,048,576` unified input+output; `64K` sync / long decode up to 1M (`background=true` or `continuation_token` on `v1beta1`) | Custom `temperature`/`top_p`/`top_k` ignored; per-item `media_resolution`; text/image/audio/video/PDF/Office/ODF | Must pass `thought_signature` verbatim (`400` if omitted; automatic in `google-genai` / `store: true`). Deliberate speed; use for hardest verification & long-horizon coding. |
+| **`gemini-4-neon`** | `low`, `medium`, `high` (default), `xhigh` | `1,048,576` unified; `64K` sync / long decode | Custom sampling ignored; per-item `media_resolution`; Office/ODF supported | Balances Carbon-grade frontier reasoning with faster turnaround and fewer output tokens. |
+| **`gemini-4-hydrogen`** | `low`, `medium`, `high` (default), `xhigh` (`MINIMAL` / `thinking_budget` → `400`) | `1,048,576` unified; `65,536` foreground stream / 1M long decode | Custom sampling ignored; **implicit caching only** (`>=4,096` tokens); per-item `media_resolution`; Office/ODF | Default workhorse for fast everyday coding and agentic tool loops; defaults to concise output unless verbosity requested. |
+| **`gemini-4-argon`** | `low`, `medium` (default), `high` (`xhigh`: `unverified`) | `1,048,576` unified; `64K` sync / long decode | Custom sampling ignored; per-item `media_resolution` | Initial Gemini 4 frontier release; lower token spend per turn than Carbon. |
+| **`gemini-3.8-flash`** | `low`, `medium` (default), `high` (`minimal` & `thinking_budget` unsupported → error) | `1,048,576` input / `65,536` `max_output_tokens` (shared: `thoughtsTokenCount` + `candidatesTokenCount`) | Keep `temperature=1.0` (avoid lowering); drop deprecated sampling overrides | Migrate `3.7 Flash` `minimal` → `low`; preserve `thought_signature` or `previous_interaction_id`; tight `max_output_tokens` at `high` risks `MAX_TOKENS` truncation. |
+
+## 4. Open-Weight Family Summary `[Vendor]`
 
 | Family / Variant | Thinking / Reasoning Control | Recommended Sampling | Key Structural / Prompt Rule |
 | --- | --- | --- | --- |
@@ -58,7 +78,7 @@ Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking document
 | **OpenAI `gpt-oss`** (`120b`, `20b`) | `Reasoning: low \| medium \| high` in `system` | `unverified` | **Harmony format mandatory**; custom rules in `developer`; hide `analysis`. |
 | **Meta Llama 3.3** (`70B`, `128K`) & **Llama 4** (`Scout` `10M`, `Maverick` `1M`) | None (`unverified`) | `unverified` | Distinct headers/stops (`<\|eot_id\|>` vs `<\|eot\|>`); Pythonic `[func(k=v)]` tools; external Llama Guard. |
 
-## 4. When to Upgrade & Re-Tune Prompts `[General]`
+## 5. When to Upgrade & Re-Tune Prompts `[General]`
 
 - **Always re-sweep `effort` and `max_tokens`** on every Claude minor/major bump (`5` → `5.1` → `5.2` or `5` → `5.5`): identical effort names produce different reasoning depths, and preserved thinking counts against `max_tokens`. `[Claude docs]` `[General]`
 - **Prune before adding:** Most cross-version regressions come from obsolete scaffolding (`budget_tokens`, prefill, sampling params, forced `tool_choice`, `"do not think"`, `"be conservative"`, or Opus 5 verification prompts) rather than missing rules. `[Claude docs]` `[General]`
@@ -67,14 +87,14 @@ Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking document
 - **Check prompt-cache invalidation triggers:** Changing top-level `output_config.effort`, `thinking` mode, or `output_config.format` invalidates cached prefixes; use beta per-message effort (`mid-conversation-output-config-2026-07-01`) for dynamic turns. `[Claude docs]`
 - **Treat cross-family numbers as `unverified` until measured:** Never copy Claude `effort` prompts or open-weight sampling presets across model families without running your task eval suite. `[General]`
 
-## 5. Per-Model Quick Migration Actions `[Claude docs]`
+## 6. Per-Model Quick Migration Actions `[Claude docs]`
 
 - **To Fable 5.2 / Mythos 5.2:** Start `effort: high`, audit/prune legacy delegate and token-budget rules, add `"Finishing work"` at `low`/`medium`, add code-ownership only if consolidation is wanted, and enable `display: "updates"` + silent-streak reminder for interactive UIs.
 - **To Opus 5.5:** Re-sweep `effort` starting at `medium`, convert Opus 5 `thinking: disabled` calls to `low` effort, add unattended checklist loop (`<=3` auto-continues), tag user-pasted text with random IDs, and name specific frontend anti-patterns.
 - **To Sonnet 5.5:** Re-sweep `effort` (`medium` coding / `high` default), cap unrequested tests/files and `xhigh`/`max` reviewer subagents, add JSON reasoning nudge at `low`/`medium`, and keep mid-turn user text after the last `tool_result`.
 - **To Haiku 5.5:** Raise `max_tokens` for default adaptive thinking (`budget_tokens` → `400`), pass `{{current_date}}` for search, guard `disabled` + JSON tool skipping, check for empty text at `xhigh`, and handle `stop_reason: "refusal"` client-side.
 
-## 6. Context, `max_tokens`, and API Compatibility Snapshot `[Claude docs]`
+## 7. Context, `max_tokens`, and API Compatibility Snapshot `[Claude docs]`
 
 - **Hard `max_tokens` ceiling:** Up to `128K` on `4.6`–`5.5` models (`64K` on `4.5`; `300K` Batches beta `output-300k-2026-03-24`), covering internal thinking + visible text combined.
 - **Sampling params (`temperature`, `top_p`, `top_k`):** Rejected (`400`) for non-default values on `4.7`/`4.8`/`5`/`5.1`/`5.2`/`5.5`/`Mythos Preview`, and rejected unconditionally under API version `2026-10-21`.
@@ -83,7 +103,7 @@ Tags: `[Claude docs]` = directly from Anthropic's Claude model/thinking document
 - **Client-side refusal & schema guardrails:** Always handle `stop_reason: "refusal"` (`stop_details.category`) and `stop_reason: "max_tokens"` explicitly in harness code; never assume HTTP `200` guarantees valid JSON. `[Claude docs]`
 - **Preserved-thinking models (`Fable 5.1/5.2`, `Mythos 5.1/5.2`, `Opus 5.5`, `Sonnet 5.5`, `Haiku 5.5`):** Keep history append-only; use mid-conversation `system` messages or server compaction (`clear_thinking_20251015`) instead of editing earlier turns.
 
-## 7. Gaps / `unverified`
+## 8. Gaps / `unverified`
 
 - Exact numerical token multipliers per Claude `effort` tier, TTFT/TPS comparisons across models, and missing context-window sizes where model prompting pages are silent (`Fable 5`, `Fable 5.1`, `Sonnet 5`, `DeepSeek-R1-0528`, `gpt-oss`) are `unverified`.
 - Detailed breaking API changes referenced in the Opus 5.5 (4 changes) and Sonnet 5.5 (5 changes) migration guides are `unverified` here.

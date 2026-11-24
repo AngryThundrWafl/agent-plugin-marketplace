@@ -1,14 +1,14 @@
 # prompt-engineering
 
-A portable Agent Plugins v1.0.0 and Google Antigravity v1 package providing a shared, live-distilled **Prompting Reference Pack** (`reference/`) and two progressive-disclosure skills (`skill-creator` and `prompt-creator`) for Claude and open-weight model families.
+A portable Agent Plugins v1.0.0 and Google Antigravity v1 package providing a shared, live-distilled **Prompting Reference Pack** (`reference/`) and two progressive-disclosure skills (`skill-creator` and `prompt-creator`) for Claude, Google Gemini, and open-weight model families.
 
 ## Contents
 
 ### Shared Reference Pack (`reference/`)
 
-Every file under `reference/` is a self-contained, single-topic **leaf document** distilled from official Claude Platform documentation, open-weight model cards/vendor guides, and the Agent Plugins / Agent Skills specifications (see `reference/sources.md` for exact URLs and fetch dates). Claims are tagged `[Claude docs]`, `[Vendor]`, or `[General]`, and gaps where sources are silent are marked `unverified`.
+Every file under `reference/` is a self-contained, single-topic **leaf document** distilled from official Claude Platform documentation, Google Gemini API docs and DeepMind model cards, open-weight model cards/vendor guides, and the Agent Plugins / Agent Skills specifications (see `reference/sources.md` for exact URLs and fetch dates). Claims are tagged `[Claude docs]`, `[Vendor]`, or `[General]`, and gaps where sources are silent are marked `unverified`.
 
-See [`reference/README.md`](reference/README.md) for the human/maintainer catalog of all 20 files (`README.md`, `sources.md`, `01`, `03`–`19`).
+See [`reference/README.md`](reference/README.md) for the human/maintainer catalog of all 22 files (`README.md`, `sources.md`, `01`, `03`–`21`).
 
 ### Skills (`skills/`)
 
@@ -18,7 +18,7 @@ Per the Agent Plugins v1.0.0 specification, skills are discovered from immediate
    - `SKILL.md` — Thin trigger and one-level-deep progressive-disclosure router.
    - `references/authoring-guide.md` — Step-by-step leaf authoring procedure.
    - `references/checklist.md` — Reusable structural, progressive-disclosure, and prompting-hygiene verification checklist.
-2. **`skills/prompt-creator/`** — Designs, versions, and tests prompts for Claude and open-weight models using the 8-section output contract (`Target` / `Spec` / `Prompt` / `Why` / `Settings` / `Tests` / `Changelog` / `Limitations`).
+2. **`skills/prompt-creator/`** — Designs, versions, and tests prompts for Claude, Google Gemini, and open-weight models using the 8-section output contract (`Target` / `Spec` / `Prompt` / `Why` / `Settings` / `Tests` / `Changelog` / `Limitations`).
    - `SKILL.md` — Thin trigger and one-level-deep progressive-disclosure router.
    - `references/authoring-guide.md` — End-to-end leaf workflow and 8-section output contract.
    - `references/checklist.md` — Binary deliverable verification checklist grounded in loaded reference files.
@@ -36,6 +36,11 @@ Per the Agent Plugins v1.0.0 specification, skills are discovered from immediate
 - No `mcp.json` / `mcp_config.json` servers are included in this plugin.
 
 ## Changelog
+
+### 1.4.0 (2026-11-24)
+- Added Google Gemini model-specific leaf reference guides (`reference/20-gemini-4.md` for `gemini-4-carbon`, `gemini-4-neon`, `gemini-4-hydrogen`, `gemini-4-argon` and `reference/21-gemini-3-8-flash.md` for `gemini-3.8-flash`) grounded in Google Gemini API documentation and DeepMind model cards.
+- Updated `reference/sources.md`, `reference/10-model-delta-matrix.md`, `reference/03-overlap-and-porting.md`, and `reference/README.md` (catalog expanded to 22 files; broadened `[Vendor]` tag scope to cover first-party Gemini docs alongside open-weight vendor cards).
+- Updated `skills/prompt-creator/` and `skills/skill-creator/` routing tables, authoring guides, plugin manifests, and marketplace metadata to route directly to Gemini 4 and Gemini 3.8 Flash leaf references.
 
 ### 1.3.0 (2026-11-24)
 - Rewrote both skill `description`s in third person with concrete trigger keywords (model families, prompt porting, skill review).

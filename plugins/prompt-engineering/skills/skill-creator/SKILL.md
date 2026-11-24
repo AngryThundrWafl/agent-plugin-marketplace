@@ -2,7 +2,7 @@
 name: skill-creator
 description: Creates, refactors, and audits portable Agent Skills (SKILL.md, frontmatter, references, scripts) against the agentskills.io spec and Anthropic authoring best practices. Use when writing a new skill, restructuring an existing one, reviewing a skill or plugin for compliance, or fixing skill triggering.
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Skill Creator
@@ -15,7 +15,7 @@ Load only the resources needed for the active task so startup and runtime contex
 
 - **Creating or refactoring a skill:** Read [references/authoring-guide.md](references/authoring-guide.md) for the 8-step authoring procedure.
 - **Auditing or verifying a skill:** Read [references/checklist.md](references/checklist.md) for the pass/fail verification rubric.
-- **Writing model- or task-specific prompting instructions:** Read **only** the matching leaf file(s) below directly from `SKILL.md`. Load model-specific files (`11`–`19`) before general files (`01`, `03`–`09`), since model-specific behavior overrides general defaults.
+- **Writing model- or task-specific prompting instructions:** Read **only** the matching leaf file(s) below directly from `SKILL.md`. Load model-specific files (`11`–`21`) before general files (`01`, `03`–`09`), since model-specific behavior overrides general defaults.
 
 | Target / Topic | Leaf Reference File |
 | --- | --- |
@@ -28,6 +28,8 @@ Load only the resources needed for the active task so startup and runtime contex
 | Qwen3 (`235B-A22B`, `32B`, `2507` variants) | [../../reference/17-qwen3.md](../../reference/17-qwen3.md) |
 | OpenAI `gpt-oss` (`120b`, `20b`) & Harmony | [../../reference/18-gpt-oss.md](../../reference/18-gpt-oss.md) |
 | Meta Llama 3.3 & Llama 4 (`Scout`, `Maverick`) | [../../reference/19-llama.md](../../reference/19-llama.md) |
+| Google Gemini 4 (`Carbon`, `Neon`, `Hydrogen`, `Argon`) | [../../reference/20-gemini-4.md](../../reference/20-gemini-4.md) |
+| Google Gemini 3.8 Flash (`gemini-3.8-flash`) | [../../reference/21-gemini-3-8-flash.md](../../reference/21-gemini-3-8-flash.md) |
 | Claude core principles (clarity, XML, few-shot, long context) | [../../reference/01-claude-core.md](../../reference/01-claude-core.md) |
 | Cross-family overlap & porting rules | [../../reference/03-overlap-and-porting.md](../../reference/03-overlap-and-porting.md) |
 | Condensed Claude prompt skeletons | [../../reference/04-templates.md](../../reference/04-templates.md) |

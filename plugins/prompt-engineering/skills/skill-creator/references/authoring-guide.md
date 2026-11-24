@@ -6,7 +6,7 @@ Use this runtime procedure when creating, refactoring, or auditing an Agent Skil
 
 Tag every prompting or behavioral claim in skill guides using the Prompting Reference Pack convention `[General]`:
 - `[Claude docs]` — directly sourced from Anthropic Claude Platform documentation.
-- `[Vendor]` — directly sourced from open-weight vendor model cards or guides.
+- `[Vendor]` — directly sourced from vendor documentation or model cards (Google Gemini, DeepSeek, Qwen, OpenAI, Meta).
 - `[General]` — cross-source synthesis requiring empirical verification against evals.
 - `unverified` — official sources are silent; keep gaps explicit rather than extrapolating from other models.
 
@@ -16,7 +16,7 @@ Tag every prompting or behavioral claim in skill guides using the Prompting Refe
 2. **Identify target harnesses and packaging:**
    - Package as a standalone skill or portable plugin component at `skills/<skill-name>/SKILL.md` (per Agent Plugins `1.0.0`, plugin `name` allows `.` while skill `name` allows only lowercase alphanumeric characters and `-`, with no `.` and no `--`).
    - Include `compatibility` only when the skill genuinely requires specific runtimes, binaries, or network access; omit it otherwise (`agentskills.io`).
-3. **Identify target models:** Determine whether the skill targets specific Claude models, open-weight families, or is model-agnostic `[General]`.
+3. **Identify target models:** Determine whether the skill targets specific Claude models, Google Gemini models, open-weight families, or is model-agnostic `[General]`.
 4. **Define trigger boundaries:** List concrete user phrases and task contexts that should activate the skill, plus near-neighbor requests that should stay outside its scope `[General]`.
 
 ## Step 2: Ground Instructions in Loaded Reference Files
