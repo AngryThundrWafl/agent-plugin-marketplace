@@ -5,5 +5,5 @@
 - [x] Phase 2: Architecture Decision Records (`0002-manifest-placement.md`, `0003-marketplace-catalog.md`, `0004-example-plugin-and-repo-layout.md`).
 - [x] Phase 3: TypeScript validator (`src/`), 10 fixtures (`test/fixtures/`), 17 passing Vitest tests (`ajv@8.20.0` Draft 2020-12, `yaml@2.9.1`, `vitest@3.2.7`).
 - [x] Phase 4: Example plugin (`plugins/build-an-agent-plugin/`) + `.claude-plugin/marketplace.json` + snippet tests (`test/references-snippets.test.ts`), fresh-reviewed once; `npm test` (25/25), `npm run validate`, and `agy plugin validate` pass.
-- [ ] Phase 5: Root `AGENTS.md` index (and `CLAUDE.md` if confirmed) + fresh-subagent probe.
+- [x] Phase 5: Root `AGENTS.md` (49 lines) + `CLAUDE.md` (`@AGENTS.md`); fresh `AGENTS.md`-only probe answered all 3 questions.
 - [ ] Phase 6: Local install verification and final report.
