@@ -5,16 +5,16 @@ Only ship MCP configuration files when your plugin bundles or connects to an act
 ## Key Rules Across Both Formats
 
 - **Transports:** Prefer `stdio` (local subprocess) and `streamable-http` / Streamable HTTP (remote endpoint). Legacy `sse` is deprecated in Agent Plugins 1.0 and unsupported in Antigravity `mcp_config.json` (which also rejects `httpUrl`).
-- **Reserved environment variables:** Clients inject `PLUGIN_ROOT` and `PLUGIN_DATA` automatically for `stdio` servers. NEVER define `PLUGIN_ROOT` or `PLUGIN_DATA` as keys in `env`.
-- **Placeholder expansion:** `${PLUGIN_ROOT}` and `${PLUGIN_DATA}` expand in `args`, `cwd`, and `env` values only—never in `mcp.json` `command`, `env` keys, `url`, or `headers`.
-- **No hardcoded secrets:** Never commit API keys, tokens, or passwords in `env`, `headers`, or `oauth`. Secret-like keys (`secret`, `token`, `password`, `api_key`, `credential`) must use `""`, `"example"`, `"changeme"`, or a `${VAR}` placeholder.
+- **Reserved environment variables:** Clients inject `PLUGIN_ROOT` and `PLUGIN_DATA` automatically for `stdio` servers, so omit `PLUGIN_ROOT` and `PLUGIN_DATA` from `env` keys to avoid schema rejection or overriding host paths.
+- **Placeholder expansion:** Use `${PLUGIN_ROOT}` and `${PLUGIN_DATA}` only in `args`, `cwd`, and `env` values—keep `mcp.json` `command`, `env` keys, `url`, and `headers` free of placeholders because clients do not expand them there.
+- **Secret-free config files:** Keep API keys, tokens, and passwords out of committed `env`, `headers`, and `oauth` blocks. For secret-like keys (`secret`, `token`, `password`, `api_key`, `credential`), use `""`, `"example"`, `"changeme"`, or a `${VAR}` placeholder.
 
 ## 1. Agent Plugins v1.0.0 (`<plugin-root>/mcp.json`)
 
-- `$schema` MUST equal `"https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"` (matching `plugin.json`'s version).
-- `stdio` `command` MUST be a single executable token (bare name like `"npx"` or plugin-relative `./...` path—no spaces and no placeholders).
-- `stdio` `cwd` (optional, defaults to plugin root) MUST start with `./`, `${PLUGIN_ROOT}`, or `${PLUGIN_DATA}` and stay contained.
-- Remote `url` MUST be an absolute `https://` URL (plain `http://` is allowed only for loopback hosts `localhost`, `127.x.x.x`, `::1`), with no userinfo and no `#fragment`.
+- Set `$schema` to `"https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"` (matching `plugin.json`'s version).
+- Set `stdio` `command` to a single executable token (bare name like `"npx"` or plugin-relative `./...` path, with no spaces and no placeholders).
+- Prefix optional `stdio` `cwd` (defaults to plugin root) with `./`, `${PLUGIN_ROOT}`, or `${PLUGIN_DATA}` so it stays contained within the plugin or data root.
+- Use an absolute `https://` URL for remote `url` (plain `http://` is permitted only for loopback hosts `localhost`, `127.x.x.x`, `::1`), omitting userinfo and `#fragment`.
 - Agent Plugins 1.0 defines no portable credential-reference or OAuth fields; keep `env` and `headers` secret-free.
 
 ```json validate:mcp.json

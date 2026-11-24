@@ -2,7 +2,6 @@
 
 - **Date:** 2026-11-24
 - **Status:** Accepted
-- **Sources:** `docs/specs/agent-plugins.md`, `docs/specs/claude-marketplaces.md`, `docs/specs/copilot-plugins.md`, `docs/specs/antigravity.md`, `docs/specs/harness-compat.md`
 
 ## Context
 
@@ -20,7 +19,7 @@ Every portable plugin in this marketplace ships **two** plugin-level manifests, 
 2. **`<plugin-root>/.antigravity-plugin/plugin.json`** — Google Antigravity v1 manifest (`https://antigravity.google/schemas/v1/plugin.json`). Takes precedence over root `plugin.json` in Antigravity without deleting the portable manifest.
 3. **Claude Code** — Served by the plugin's entry in `<repo>/.claude-plugin/marketplace.json` plus standard root `skills/<name>/SKILL.md` discovery. `.claude-plugin/plugin.json` is intentionally omitted for portable skills-only plugins to avoid a third manifest and duplicate-`version` warnings.
    - *Escape hatch:* Authors needing Claude-only features (`userConfig`, `channels`, non-default component paths, or `.claude/skills/` auto-loading) MAY add `.claude-plugin/plugin.json` without breaking Copilot (root `plugin.json` wins) or Antigravity (`.antigravity-plugin/plugin.json` wins).
-4. **Other harnesses** (Cursor `.cursor-plugin/`, etc.) — Out of scope for manifests in this milestone; documented in `docs/specs/harness-compat.md` only.
+4. **Other harnesses** (Cursor `.cursor-plugin/`, etc.) — Out of scope for manifests in this milestone; covered only as compatibility notes (no Cursor manifests shipped).
 
 ## Consequences
 

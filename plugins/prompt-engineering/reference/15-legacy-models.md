@@ -17,8 +17,6 @@ Condensed digest of earlier models whose prompts may still exist in production o
 
 ## 1. Claude Fable 5.1 / Mythos 5.1 [Claude docs]
 
-Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1`
-
 - **Effort calibration:** Default `high`; re-run sweeps rather than carrying over Fable 5 settings. `medium` roughly matches Fable 5 at lower cost; `low` is often cost/score competitive against smaller models at higher effort. At `low`, search/retrieval triggers less often (nudge it to verify unfamiliar or fast-moving names via search using the user's exact spelling). At `xhigh`/`max`, it can draft long deliverables twice (in thinking then reply) → set `max_tokens` for both and append a user note instructing it not to compose the full output in reasoning.
 - **Progress updates:** Quieter between tool calls than Fable 5, especially at high effort. Set `display: "updates"` (beta `thinking-display-updates-2026-08-18`) or `"summarized"`, strip `"hold all findings for the final response"`, and send a turn-scoped system note (`clear_at: "next_user_message"`) if your UI hides terminal output.
 - **Batching independent tool calls:** Batches explicit multi-item fetches, but in coding/computer-use loops may run implied independent calls one per turn. Append a turn-scoped system nudge (`mid-conversation-system-clear-at-2026-08-21`) after tool results (**verbatim**):
@@ -40,8 +38,6 @@ First privately list what you need next; then request every item that doesn't de
 
 ## 2. Claude Fable 5 / Mythos 5 [Claude docs]
 
-Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5`
-
 - **Thinking & safeguards:** Adaptive thinking only, summarized-only thinking output, no `budget_tokens`. Safety classifiers cover offensive cyber, biology/life sciences, and `reasoning_extraction` (supports fallback to Opus 4.8, except `fallbacks: "default"` does not retry `reasoning_extraction`).
 - **Long turns & timeouts:** Default `high` (`xhigh` for hardest tasks; `medium`/`low` often exceed prior models' `xhigh`). Individual turns can run many minutes or hours → raise client timeouts, enable streaming, and check runs asynchronously.
 - **Concise steering:** Instruction following is strong enough for brief rules over exhaustive lists:
@@ -57,8 +53,6 @@ Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineerin
 
 ## 3. Claude Opus 5 [Claude docs]
 
-Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5`
-
 - **Strengths & defaults:** Built for complex agentic coding, **1M token context** (default and max), multisheet spreadsheets/slides, and high-precision/recall code review (avoid `"only report high-severity"` unless you want fewer bugs reported; filter in a second pass). Default effort: `high` (re-run sweeps; `low`/`medium` yield strong quality at lower cost/latency).
 - **Verbosity & over-verification gotchas:**
   - Default replies, progress narration, and written files run longer than prior Opus models; effort does **not** reliably shorten visible text — prompt explicitly for concision and unpadded files.
@@ -73,8 +67,6 @@ When you use a tool, you may say a brief sentence first. If no tool can express 
 
 ## 4. Claude Opus 4.8 [Claude docs]
 
-Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8`
-
 - **Thinking & effort:** Thinking is **off by default** unless `thinking: {type: "adaptive"}` is explicitly set (steerable via prompt). Start coding/agentic work at `xhigh` (`max` can overthink); use `>= high` for intelligence-sensitive tasks and `>= 64k` `max_tokens` at `xhigh`/`max`. Respects `low`/`medium` strictly (risk of under-thinking complex tasks).
 - **Behavioral deltas:**
   - **1M context window default** and mid-conversation system messages (shared with Opus 5.5 migration path).
@@ -86,8 +78,6 @@ Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineerin
 - **Frontend house style & computer use:** Persistent warm cream (`~#F4F1EA`), serif display (Georgia/Fraunces/Playfair), italic accents, terracotta/amber palette. Override with concrete specs or ask for 4 visual directions first. Computer use: `computer_toolset_20260801` (`computer_20251124`), `browser_toolset_20260801`, max `2576px / 3.75MP` (1080p balanced; 720p/`1366x768` cheaper).
 
 ## 5. Claude Sonnet 5 [Claude docs]
-
-Source: `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5`
 
 - **Adaptive thinking ON by default & new tokenizer:** Requests without `thinking` now run adaptive thinking (unlike Sonnet 4.6); `high` effort default. Rough mapping: Sonnet 5 `medium` ≈ Sonnet 4.6 `high`; Sonnet 5 `high` ≈ Sonnet 4.6 `max`. Manual extended thinking (`budget_tokens`) returns **400**. **New tokenizer produces ~30% more tokens** for identical text — raise `max_tokens` limits tuned on Sonnet 4.6 to avoid `stop_reason: "max_tokens"` truncation.
 - **Sampling params removed:** Passing `temperature`, `top_p`, or `top_k` returns **400** (use `"propose 4 visual directions"` instead of `temperature` for design variety).

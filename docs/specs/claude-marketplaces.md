@@ -62,6 +62,6 @@
 
 ## Gotchas
 
-- **Root `plugin.json` & `mcp.json` mismatch:** Claude Code's native manifest is `.claude-plugin/plugin.json` (optional) and its default MCP file is `.mcp.json` (not `mcp.json`). For a skills-only portable plugin listed in `.claude-plugin/marketplace.json`, omitting `.claude-plugin/plugin.json` lets Claude Code load root `skills/<name>/SKILL.md` directly via the marketplace entry, OR adding `.claude-plugin/plugin.json` gives Claude Code explicit metadata (including `claude --plugin-dir` support) — Phase 2 ADR will settle this.
+- **Root `plugin.json` & `mcp.json` mismatch:** Claude Code's native manifest is `.claude-plugin/plugin.json` (optional) and its default MCP file is `.mcp.json` (not `mcp.json`). For portable skills-only plugins listed in `.claude-plugin/marketplace.json`, this repository omits `.claude-plugin/plugin.json` so Claude Code loads root `skills/<name>/SKILL.md` directly via the marketplace entry without duplicate-`version` warnings; add `.claude-plugin/plugin.json` only when a plugin needs Claude-only features (`userConfig`, `channels`, or custom component paths).
 - **Duplicate `version` warning:** Setting `version` in both `.claude-plugin/plugin.json` and the `marketplace.json` entry triggers a `claude plugin validate` warning (manifest wins).
 - **Prompt injection check:** No agent-directed instructions found in the fetched Claude Code docs.

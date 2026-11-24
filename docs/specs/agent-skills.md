@@ -1,11 +1,11 @@
 # Agent Skills Specification
 
 - **Sources:**
-  - https://agentskills.io/specification (cloned at `.cache/agentskills/docs/specification.mdx`)
-  - https://github.com/agentskills/agentskills.git (reference library at `.cache/agentskills/skills-ref/`)
+  - https://agentskills.io/specification (upstream `agentskills/agentskills` `docs/specification.mdx`)
+  - https://github.com/agentskills/agentskills.git (reference library `skills-ref/`)
 - **Retrieved:** 2026-11-24
 - **Spec version:** Unversioned live specification (`agentskills/agentskills` main)
-- **Reference validator:** Present in cloned repo at `.cache/agentskills/skills-ref/src/skills_ref/validator.py` (Python + `strictyaml`; README marks it "demonstration purposes only, not meant for production"; TypeScript validator implements its exact rule set directly).
+- **Reference validator:** Upstream `skills-ref/src/skills_ref/validator.py` (Python + `strictyaml`; README marks it "demonstration purposes only, not meant for production"; TypeScript validator implements its exact rule set directly).
 
 ## Review Claims (5)
 
@@ -50,7 +50,7 @@
 
 ## Reference Validator Notes (`skills-ref`)
 
-- `.cache/agentskills/skills-ref/src/skills_ref/validator.py` enforces:
+- Upstream `skills-ref` (`src/skills_ref/validator.py`) enforces:
   - Unknown frontmatter key rejection (`ALLOWED_FIELDS`).
   - `name` non-empty string, NFKC-normalized, ≤64 chars, lowercase, no leading/trailing `-`, no `--`, `isalnum() or '-'`, matches `skill_dir.name`.
   - `description` non-empty string, ≤1024 chars.

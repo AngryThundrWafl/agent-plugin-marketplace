@@ -104,7 +104,7 @@ Reconsider: standing delegate-instructions; a token budget shown in the prompt (
 ## 8. Make reports easy to follow [Claude docs]
 
 - Testers rated writing above Fable 5.1 and similar in clarity to Opus 5.5. Readers of final reports usually haven't seen tool calls, so reports must stand alone.
-- The page supplies a "Communicating clearly" system-prompt block (low-context reader, self-contained, key points first, progressive disclosure, plain words, no invented terms, mostly ASD-STE100-style short sentences, prose for connected ideas, bullets for separate items). Effect: less dense final reports, fewer semicolons, shorter sentences on workflow-automation tasks. Adapt length/detail. Fetch the page if exact wording is needed; this digest does not reproduce it.
+- The page supplies a "Communicating clearly" system-prompt block (low-context reader, self-contained, key points first, progressive disclosure, plain words, no invented terms, mostly ASD-STE100-style short sentences, prose for connected ideas, bullets for separate items). Effect: less dense final reports, fewer semicolons, shorter sentences on workflow-automation tasks. Adapt length/detail (exact verbatim wording is omitted from this digest; upstream URL is recorded in `source:`).
 
 ## 9. Safeguard refusals [Claude docs]
 

@@ -92,5 +92,5 @@ The rules in this system prompt hold for the whole conversation. Keep to them wh
 
 ## 7. Cross-page synthesis & `unverified`
 
-- [General] When deploying Haiku 5.5 as a low-latency guardrail screen or classifier (`mitigate-jailbreaks.md` / `reduce-latency.md`), benchmark `thinking: {"type": "disabled"}` vs. `adaptive` at `low` effort with `output_config.format` on your eval set.
+- [General] When deploying Haiku 5.5 as a low-latency guardrail screen or classifier, benchmark `thinking: {"type": "disabled"}` vs. `adaptive` at `low` effort with `output_config.format` on your eval set.
 - `unverified`: Breaking API changes in the Haiku 5.5 migration guide, sampling parameter rules, and visual/computer-use tool versions are not covered on this page.

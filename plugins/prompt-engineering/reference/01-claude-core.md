@@ -3,9 +3,9 @@ name: Claude core prompting principles
 source:
   - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview
   - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/be-clear-and-direct (redirects to claude-prompting-best-practices)
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags (redirects to claude-prompting-best-practices)
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/long-context-tips (redirects to claude-prompting-best-practices)
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/be-clear-and-direct
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/long-context-tips
 fetched: 2026-11-24
 covers: Prerequisite eval workflow, clarity and directness, context/motivation, multishot examples, XML tag structure, system-prompt role, long-context placement and grounding, model self-knowledge, modern Claude migration defaults
 ---
@@ -13,9 +13,7 @@ covers: Prerequisite eval workflow, clarity and directness, context/motivation, 
 # Claude Core Prompting Principles
 
 Tags: `[Claude docs]` = directly from the fetched pages above. `[General]` = cross-section synthesis, must be tested. `unverified` = source pages are silent.
-Redirect note: `be-clear-and-direct.md`, `use-xml-tags.md`, `long-context-tips.md` (along with `chain-of-thought.md` and `extended-thinking-tips.md`) all redirect to `claude-prompting-best-practices.md`, which is the living reference for current Claude models (Fable 5.2, Mythos 5.2, Fable 5.1, Mythos 5.1, Fable 5, Mythos 5, Opus 5.5, Opus 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 5.5, Haiku 4.5). [Claude docs]
-
-**Core workflow rule:** Before designing or tuning a prompt for a specific Claude model, read the model-specific reference file first (`11-fable-5-2.md`, `12-opus-5-5.md`, etc.) because model-specific behavior overrides general defaults. [Claude docs]
+Scope note: Covers current Claude models (Fable 5.2, Mythos 5.2, Fable 5.1, Mythos 5.1, Fable 5, Mythos 5, Opus 5.5, Opus 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 5.5, Haiku 4.5). Model-specific behavior overrides general defaults when both apply. `[Claude docs]`
 
 ## 0. Prerequisites: Before Prompt Engineering [Claude docs]
 
@@ -60,7 +58,7 @@ Examples are one of the most reliable ways to steer output format, tone, structu
 - Use XML tags (`<instructions>`, `<context>`, `<input>`, `<examples>`, `<documents>`) to separate instructions, reference material, examples, and variable user input unambiguously.
 - Use consistent, descriptive tag names across the prompt.
 - Nest tags for hierarchical data (`<documents>` containing `<document index="n">`).
-- Note: For untrusted user-pasted blocks on newer models (e.g., Opus 5.5), see model-specific guidance on tagged pasted content (`12-opus-5-5.md`). [General]
+- Note: For untrusted user-pasted blocks on newer models (such as Opus 5.5), wrap pasted text in random-ID `<pasted_content id="...">` tags per model-specific guidance. `[General]`
 
 ## 6. Give Claude a Role (`system` Prompt) [Claude docs]
 
@@ -76,19 +74,19 @@ Examples are one of the most reliable ways to steer output format, tone, structu
 ## 8. Capability-Specific & Safety Blocks in System Prompts [Claude docs]
 
 - **Vision cropping:** On dense images, charts, or UI screenshots, give Claude a crop/zoom tool or skill; testing showed consistent uplift when Claude can zoom into image regions (`multimodal-crop-tool` cookbook). [Claude docs]
-- **Medication dosing (children's OTC):** If users may ask about child dosing, copy the model-specific `<medical_guidance>` block verbatim from `claude-prompting-best-practices.md` (variants differ for Fable 5.2, Fable 5.1/Opus 5.5/Sonnet 5.5/etc., Haiku 5.5, Sonnet 4.6, and Haiku 4.5). Without web search, Claude defers to the product label, pharmacist, or doctor rather than dosing from memory; with web search, it confirms against an official label such as DailyMed. [Claude docs]
-- **Financial records / payments:** Copy Anthropic's verbatim customer-records/payments block if handling account numbers, reports, or payment workflows (see `07-tools-and-agents.md`). [Claude docs]
+- **Medication dosing (children's OTC):** If users may ask about child dosing, Anthropic's prompting best-practices docs provide model-specific verbatim `<medical_guidance>` blocks (variants differ across Fable 5.2, Fable 5.1/Opus 5.5/Sonnet 5.5, Haiku 5.5, Sonnet 4.6, and Haiku 4.5; exact verbatim wording is omitted from this digest; upstream URL is recorded in `source:`). Without web search, Claude defers to the product label, pharmacist, or doctor rather than dosing from memory; with web search, it confirms against an official label such as DailyMed. `[Claude docs]`
+- **Financial records / payments:** Anthropic provides a verbatim customer-records/payments system-prompt block for agents handling account numbers, financial reports, or payment workflows (always enforce money-moving approvals in tool/harness code as well). `[Claude docs]`
 
 ## 9. Migration Principles for Modern Claude Models [Claude docs]
 
 When updating prompts built for earlier Claude generations:
 1. **Specify exact desired behavior** and use quality/completeness modifiers instead of terse under-specified prompts.
 2. **Soften aggressive anti-laziness / anti-undertriggering language:** Instructions like `"CRITICAL: You MUST use this tool..."` or `"If in doubt, use [tool]"` cause overtriggering and overthinking on Claude 4.6+ models. Replace with neutral `"Use [tool] when..."`.
-3. **Remove last-turn assistant prefills:** Unsupported (returns **400**) starting with Claude 4.6 and Mythos Preview; move formatting/continuation/preamble rules to system/user prompts or `output_config.format` (see `05-output-and-formatting.md`).
-4. **Switch manual `budget_tokens` to adaptive thinking + `effort`:** `budget_tokens` is deprecated on 4.6 and returns **400** on 4.7+ (see `06-thinking-and-effort.md`).
+3. **Remove last-turn assistant prefills:** Unsupported (returns **400**) starting with Claude 4.6 and Mythos Preview; move formatting, continuation, and preamble rules to system/user prompts or `output_config.format`.
+4. **Switch manual `budget_tokens` to adaptive thinking + `effort`:** `budget_tokens` is deprecated on 4.6 and returns **400** on 4.7+.
 5. **Keep conversation history append-only & pass thinking blocks unchanged:** On preserved-thinking models (Fable 5.1/5.2, Mythos 5.1/5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5), editing earlier messages, `system`, or `tools` invalidates later thinking blocks and triggers prefix-check **400** errors. Use mid-conversation system messages or server-side context editing/compaction instead.
-6. **Check model-specific pages for overrides:** E.g., Opus 5 defaults to longer replies and self-verifies without prompt nudges; Fable 5.2 requires `effort` changes rather than `"don't deliberate"` prompt lines; Opus 5.5 defaults to `medium` effort and rejects `thinking.type: "disabled"`.
+6. **Apply model-specific overrides:** E.g., Opus 5 defaults to longer replies and self-verifies without prompt nudges; Fable 5.2 requires `effort` changes rather than `"don't deliberate"` prompt lines; Opus 5.5 defaults to `medium` effort and rejects `thinking.type: "disabled"`.
 
 ## 10. Gaps / `unverified`
 
-- Prompt-length ceilings, exact system-prompt token overhead, and temperature/sampling tuning tips are not covered in `overview.md` or `claude-prompting-best-practices.md` (note: `thinking.md` documents that sampling params `temperature`/`top_p`/`top_k` are rejected with 400 on newer models / API `2026-10-21`) → prompt-level sampling tuning is `unverified`.
+- Prompt-length ceilings, exact system-prompt token overhead, and prompt-level sampling tuning are not covered in Anthropic's overview or best-practices documentation (sampling parameters `temperature`/`top_p`/`top_k` are rejected with 400 on newer models and under API `2026-10-21`) → prompt-level sampling tuning is `unverified`.
