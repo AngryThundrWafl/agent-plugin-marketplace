@@ -28,7 +28,7 @@
     {
       "name": "dockhand-gitops",
       "source": "./plugins/dockhand-gitops",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Observe and validate multi-host GitOps Docker stacks via mcp-dockhand with read-only monitoring and confirmation-gated container lifecycle controls.",
       "category": "infrastructure",
       "tags": [

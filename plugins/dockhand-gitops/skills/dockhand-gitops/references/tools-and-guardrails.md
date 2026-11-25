@@ -81,4 +81,8 @@ These `mcp-dockhand` tools are intentionally omitted from `enabledTools` and avo
 
 ## Server-Side Filtering Upgrade Path
 
-`mcp-dockhand` `v1.19.0` does not yet expose `MCP_READ_ONLY` or `MCP_TOOLS_ALLOW` environment variables (added in newer upstream commits on `main`). When upgrading `mcp-dockhand` to a release supporting `MCP_TOOLS_ALLOW`, you can enforce the exact same 38-tool allowlist at the server boundary for every client (including Claude Code and GitHub Copilot) by setting `MCP_TOOLS_ALLOW` to the comma-separated list above.
+`mcp-dockhand` `v1.19.0` does not yet expose `MCP_READ_ONLY` or `MCP_TOOLS_ALLOW` environment variables (added in newer upstream commits on `main`). When upgrading `mcp-dockhand` to a release supporting `MCP_TOOLS_ALLOW`, you can enforce the exact same 38-tool allowlist at the server boundary for every client (including Claude Code and GitHub Copilot):
+
+```bash
+MCP_TOOLS_ALLOW=get_server_info,self_check,health_check,health_check_database,get_system_info,get_host_info,get_system_disk,get_dashboard_stats,list_environments,get_environment,list_stacks,get_stack_compose,get_stack_sources,get_stack_stats,list_stack_deploys,get_stack_deploy,get_stack_deploy_log,list_git_stacks,get_git_stack,list_git_repositories,get_git_repository,get_git_repository_sync_status,list_containers,get_container,inspect_container,get_container_compose,get_container_logs,get_merged_logs,get_container_stats,get_containers_stats,get_container_activity,get_activity_events,get_pending_updates,start_container,stop_container,restart_container,pause_container,unpause_container
+```

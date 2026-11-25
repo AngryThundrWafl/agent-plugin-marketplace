@@ -14,7 +14,7 @@ Portable Agent Plugin (`Agent Plugins v1.0.0`, `Google Antigravity v1`, and `Cla
 
 | Harness | Manifest / MCP Config | Setup Notes |
 | --- | --- | --- |
-| **Google Antigravity** (`paseo`) | `.antigravity-plugin/plugin.json` + `mcp_config.json` | Installs disabled until `DOCKHAND_MCP_URL` and `DOCKHAND_MCP_AUTH_TOKEN` are configured under `/plugin` or Customizations UI. `mcp_config.json` enforces the 38-tool `enabledTools` allowlist (`33` read/diagnostic + `5` container lifecycle tools). |
+| **Google Antigravity** (`agy`) | `.antigravity-plugin/plugin.json` + `mcp_config.json` | Installs disabled until `DOCKHAND_MCP_URL` and `DOCKHAND_MCP_AUTH_TOKEN` are configured under `/plugin` or Customizations UI. `mcp_config.json` enforces the 38-tool `enabledTools` allowlist (`33` read/diagnostic + `5` container lifecycle tools). |
 | **Claude Code** | `.claude-plugin/marketplace.json` + `.mcp.json` | Reads `${DOCKHAND_MCP_URL}` and `${DOCKHAND_MCP_AUTH_TOKEN}` directly from environment variables. |
 | **GitHub Copilot** | `plugin.json` (skills-only MCP) | Agent Plugins `1.0.0` `mcp.json` forbids credential headers and `${VAR}` URL placeholders, so `mcp.json` is intentionally omitted. Configure the MCP server in `~/.copilot/mcp-config.json` (see below). |
 
@@ -51,6 +51,11 @@ Add the `dockhand` server to `~/.copilot/mcp-config.json`:
 - `skills/dockhand-gitops/references/gitops-validation.md` — GitOps topology, desired-vs-live validation checklist, and report template.
 
 ## Changelog
+
+### 1.0.1 (2026-11-25)
+- Improved prompting hygiene in `SKILL.md` and `references/gitops-validation.md` with positive framing, explicit rationale for confirmation gating, secret redaction, and prompt-injection defense, plus `inspect_container` post-recovery verification.
+- Generalized GitOps repository and host topology discovery in `SKILL.md`, `references/gitops-validation.md`, and `.antigravity-plugin/plugin.json` `suggestedPrompts`.
+- Added copy-pasteable `MCP_TOOLS_ALLOW` 38-tool list in `references/tools-and-guardrails.md` and fixed the Antigravity CLI label in `README.md`.
 
 ### 1.0.0 (2026-11-25)
 - Initial release of `dockhand-gitops` with dual plugin manifests (`plugin.json` and `.antigravity-plugin/plugin.json`), Antigravity `mcp_config.json`, Claude Code `.mcp.json`, and the `dockhand-gitops` skill with one-level-deep reference guides.
