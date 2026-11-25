@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "dockhand": {
+      "type": "http",
+      "url": "${DOCKHAND_MCP_URL}",
+      "headers": {
+        "Authorization": "Bearer ${DOCKHAND_MCP_AUTH_TOKEN}"
+      }
+    }
+  }
+}
