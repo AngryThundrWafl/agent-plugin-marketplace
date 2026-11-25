@@ -1,0 +1,24 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "dockhand-gitops",
+  "displayName": "Dockhand GitOps",
+  "version": "1.0.1",
+  "description": "Observe and validate multi-host GitOps Docker stacks via mcp-dockhand with read-only monitoring and confirmation-gated container lifecycle controls.",
+  "author": {
+    "name": "Rocky-Mountain-Devs"
+  },
+  "license": "MIT",
+  "keywords": [
+    "dockhand",
+    "mcp-dockhand",
+    "gitops",
+    "docker",
+    "homelab",
+    "monitoring"
+  ],
+  "suggestedPrompts": [
+    "Validate the entire GitOps stack across all Dockhand environments and report any drift or unhealthy containers",
+    "Check container health, resource stats, and recent error logs across all Dockhand environments",
+    "Inspect an unhealthy container's logs and propose a safe restart if needed"
+  ]
+}

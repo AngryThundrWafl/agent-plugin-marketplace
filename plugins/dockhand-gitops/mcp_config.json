@@ -1,0 +1,63 @@
+{
+  "mcpServers": {
+    "dockhand": {
+      "serverUrl": "${DOCKHAND_MCP_URL}",
+      "headers": {
+        "Authorization": "Bearer ${DOCKHAND_MCP_AUTH_TOKEN}"
+      },
+      "variables": [
+        {
+          "name": "DOCKHAND_MCP_URL",
+          "title": "Dockhand MCP URL",
+          "description": "Streamable HTTP endpoint for mcp-dockhand (for example, https://intel-nuc.<tailnet>.ts.net/mcp)."
+        },
+        {
+          "name": "DOCKHAND_MCP_AUTH_TOKEN",
+          "title": "Dockhand MCP Auth Token",
+          "description": "Bearer token matching MCP_AUTH_TOKEN on the mcp-dockhand server."
+        }
+      ],
+      "timeoutSeconds": 60,
+      "enabledTools": [
+        "get_server_info",
+        "self_check",
+        "health_check",
+        "health_check_database",
+        "get_system_info",
+        "get_host_info",
+        "get_system_disk",
+        "get_dashboard_stats",
+        "list_environments",
+        "get_environment",
+        "list_stacks",
+        "get_stack_compose",
+        "get_stack_sources",
+        "get_stack_stats",
+        "list_stack_deploys",
+        "get_stack_deploy",
+        "get_stack_deploy_log",
+        "list_git_stacks",
+        "get_git_stack",
+        "list_git_repositories",
+        "get_git_repository",
+        "get_git_repository_sync_status",
+        "list_containers",
+        "get_container",
+        "inspect_container",
+        "get_container_compose",
+        "get_container_logs",
+        "get_merged_logs",
+        "get_container_stats",
+        "get_containers_stats",
+        "get_container_activity",
+        "get_activity_events",
+        "get_pending_updates",
+        "start_container",
+        "stop_container",
+        "restart_container",
+        "pause_container",
+        "unpause_container"
+      ]
+    }
+  }
+}
